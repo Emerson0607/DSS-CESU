@@ -1,0 +1,97 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap');
+/* Root Variable */
+:root {
+    --color-primary: #7380ec;
+    --color-danger: #ff7782;
+    --color-success: #41f1b6;
+    --color-warning: #ffbb55;
+    --color-white: #fff;
+    --color-info-dark: #7d8da1;
+    --color-info-light: #dce1eb;
+    --color-dark: #363949;
+    --color-light: rgba(132, 139, 200, 0.18);
+    --color-primary-variant: #111e88;
+    --color-dark-variant: #677483;
+    --color-background: #f6f6f9;
+
+    --card-border-radius: 2rem;
+    --border-radius-1: 0.4rem;
+    --border-radius-2: 0.8rem;
+    --border-radius-3: 1.2rem;
+
+    --card-padding: 1.8rem;
+    --padding-1: 1.2rem;
+
+    --box-shadow: 0 2rem 3rem var(--color-light)
+}
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: var(--color-background);
+}
+
+label{
+    font-weight: 400;
+}
+
+.login-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: var(--card-padding);
+    height: 100vh;
+ 
+}
+
+h2{
+    margin-bottom: 3rem;
+}
+
+.login {
+    text-align: center;
+    padding:1rem;
+    border-radius: var(--border-radius-1);
+    background-color: #fff;
+    box-shadow: var(--box-shadow);
+    max-width: 350px;
+    height: 400px;
+    width: 100%;
+}
+
+
+.form-group {
+    padding-left: 1rem;
+    margin-bottom: 15px;
+    width: 100%;
+ 
+}
+
+.form-group label{
+    display: block;
+    text-align: left;
+}
+
+.form-group input{
+    display: block;
+    text-align: left;
+    width: 90%;
+    border: 1px solid var(--color-info-dark);
+    border-radius: var(--border-radius-1);
+    height: 2.5rem;
+}
+
+.btn {
+    margin-top: 0.3rem;
+    background-color: var(--color-primary);
+    color: var(--color-white);
+    padding: 0.4rem 0.4rem;
+    border: none;
+    width: 90%;
+    border-radius: var(--border-radius-1);
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+    height: 2.5rem;
+}
+
+.btn:hover {
+    background-color: #5c68cc;
+}

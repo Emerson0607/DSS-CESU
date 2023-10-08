@@ -1,0 +1,39 @@
+{% extends "admin_dashboard.html" %}
+{% block content %}
+<div class="csvCard">
+    <div class="add">
+        <form action="/your-submit-url" method="post" id="program-form">
+            <label for="program">Program:</label>
+            <select id="program" name="program">
+                <option value="program1">Program 1</option>
+                <option value="program2">Program 2</option>
+                <option value="program3">Program 3</option>
+            </select><br><br>
+
+            <label for="subprogram">Subprogram:</label>
+            <select id="subprogram" name="subprogram">
+                <option value="subprogram1">Subprogram 1</option>
+                <option value="subprogram2">Subprogram 2</option>
+                <option value="subprogram3">Subprogram 3</option>
+            </select><br><br>
+
+            <label for="integer">Enter an Integer:</label>
+            <input type="number" id="integer" name="integer" required><br><br>
+
+            <!-- Use the provided code as the submit button -->
+            <div class="submit-button">
+                <label for="submit-button" class="material-symbols-sharp">
+                    <span class="material-symbols-sharp">add_box</span>
+                </label>
+                <input type="submit" value="Submit" id="submit-button" style="display: none;">
+            </div>
+        </form>
+    </div>
+
+    <div class="community">
+        <!--dynamic-->
+    </div>
+</div>
+
+
+{% endblock %}

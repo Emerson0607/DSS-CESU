@@ -1,0 +1,124 @@
+{% extends "admin_dashboard.html" %}
+{% block content %}
+<div class="csvCard">
+    <div class="sales">
+    <h1>Dashboard</h1>
+            <!--For one row-->
+            <form method="POST" action="{{ url_for('randomForest.programOneRow') }}">
+                <label for="Kasarian">Kasarian:</label>
+                <select id="Kasarian" name="Kasarian" required>
+                    <option value="">Select an option</option> <!-- Placeholder option -->
+                    <option value="0">Male</option>
+                    <option value="1">Female</option>
+                </select>
+                
+                <br>
+                
+                <label for="Edad">Edad:</label>
+                <select id="Edad" name="Edad" required>
+                    <option value="">Select an option</option> <!-- Placeholder option -->
+                    <option value="0">17-below</option>
+                    <option value="1">18-24</option>
+                    <option value="2">25-34</option>
+                    <option value="3">35-44</option>
+                    <option value="4">45-54</option>
+                    <option value="5">55-64</option>
+                    <option value="6">65-Above</option>
+                </select>
+                <br>
+                
+                <label for="Antas na tinapos">Antas na tinapos:</label>
+                <select id="Antas na tinapos" name="Antas na tinapos" required>
+                    <option value="">Select an option</option> <!-- Placeholder option -->
+                    <option value="0">Elementary</option>
+                    <option value="1">Not Elementary</option>
+                    <option value="2">Secondary</option>
+                    <option value="3">Not Secondary</option>
+                    <option value="4">College</option>
+                    <option value="5">Not College</option>
+                    <option value="6">Master's Degree</option>
+                    <option value="7">Doctorate Degree</option>
+                    <option value="8">Uneducated</option>
+                </select>
+                <br>
+                
+                <label for="Uri ng trabaho">Uri ng trabaho:</label>
+                <select id="eUri ng trabaho" name="Uri ng trabaho" required>
+                    <option value="">Select an option</option> <!-- Placeholder option -->
+                    <option value="0">Employed</option>
+                    <option value="1">Unemployed</option>
+                </select>
+                <br>
+                
+                <label>Pangedukasyon:</label>
+                <input type="hidden" id="education_aid_hidden" name="education_aid_hidden" value="0">
+                <input type="checkbox" id="Pangedukasyon" name="Pangedukasyon" value="1">
+                <label for="Pangedukasyon">Pangedukasyon</label>
+                <br>
+        
+                <label>Pangkultura:</label>
+                <input type="hidden" id="culture_aid_hidden" name="culture_aid_hidden" value="0">
+                <input type="checkbox" id="Pangkultura" name="Pangkultura" value="1">
+                <label for="Pangkultura">Pangkultura</label>
+                <br>
+        
+                <label>Pangkabuhayan:</label>
+                <input type="hidden" id="livelihood_aid_hidden" name="livelihood_aid_hidden" value="0">
+                <input type="checkbox" id="Pangkabuhayan" name="Pangkabuhayan" value="1">
+                <label for="Pangkabuhayan">Pangkabuhayan</label>
+                <br>
+        
+                <label>Values at Moral:</label>
+                <input type="hidden" id="values_morals_aid_hidden" name="values_morals_aid_hidden" value="0">
+                <input type="checkbox" id="ValuesMoral" name="ValuesMoral" value="1">
+                <label for="ValuesMoral">Values at Moral</label>
+                <br>
+        
+                <label>Pagtatanim:</label>
+                <input type="hidden" id="planting_aid_hidden" name="planting_aid_hidden" value="0">
+                <input type="checkbox" id="Pagtatanim" name="Pagtatanim" value="1">
+                <label for="Pagtatanim">Pagtatanim</label>
+                <br>
+        
+                <label>Ayudang Pagkain:</label>
+                <input type="hidden" id="food_aid_hidden" name="food_aid_hidden" value="0">
+                <input type="checkbox" id="Pagkain" name="Pagkain" value="1">
+                <label for="Pagkain">Ayudang Pagkain</label>
+                <br>
+        
+                <label>Pangkalusugan:</label>
+                <input type="hidden" id="health_aid_hidden" name="health_aid_hidden" value="0">
+                <input type="checkbox" id="Pangkalusugan" name="Pangkalusugan" value="1">
+                <label for="Pangkalusugan">Pangkalusugan</label>
+                <br>
+        
+                <label>Pagrerecycle:</label>
+                <input type="hidden" id="recycling_aid_hidden" name="recycling_aid_hidden" value="0">
+                <input type="checkbox" id="Pagrerecycle" name="Pagrerecycle" value="1">
+                <label for="Pagrerecycle">Pagrerecycle</label>
+                <br>
+        
+                <label>Dental:</label>
+                <input type="hidden" id="dental_aid_hidden" name="dental_aid_hidden" value="0">
+                <input type="checkbox" id="Dental" name="Dental" value="1">
+                <label for="Dental">Dental</label>
+                <br>
+        
+                <label>Teknolohiya:</label>
+                <input type="hidden" id="technology_aid_hidden" name="technology_aid_hidden" value="0">
+                <input type="checkbox" id="Teknolohiya" name="Teknolohiya" value="1">
+                <label for="Teknolohiya">Teknolohiya</label>
+                <br>
+                <input type="submit" value="Submit">
+            </form>
+            <!--For file-->
+            <br>
+    <h1>Upload a CSV File</h1>
+        <form method="POST" action="{{ url_for('randomForest.programWithCSV') }}" enctype="multipart/form-data" id="upload-form">
+            <input type="file" name="csv_file">
+            <input type="submit" value="upload">
+        </form>
+    </div>
+</div>   
+    {% block results %}{% endblock %}      
+{% endblock %}

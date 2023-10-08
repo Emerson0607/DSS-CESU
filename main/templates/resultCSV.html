@@ -1,0 +1,47 @@
+{% extends "program.html" %}
+{% block results %}
+<div class="top" id="results-section">
+    <div class="program">
+        <h2>Predicted Results:</h2>
+        <ul>
+            {% for item in top_programs %}
+            <li>
+                <span class="prediction" data-program="{{ item.program }}">
+                    {{ item.program }} ({{ item.quantity }} rows)
+                </span>
+            </li>
+            <li class="sub-programs" style="display: none;">
+                <!-- Placeholder for sub-programs (initially hidden) -->
+                <ul>
+                    {% for sub_program in item.sub_programs %}
+                    <li>{{ sub_program }}</li>
+                    {% endfor %}
+                </ul>
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+</div>
+
+<script>
+    // JavaScript code to handle clicks on predictions
+    const predictionElements = document.querySelectorAll('.prediction');
+    predictionElements.forEach(element => {
+        element.addEventListener('click', () => {
+            // Hide all sub-programs
+            const subProgramsLists = document.querySelectorAll('.sub-programs');
+            subProgramsLists.forEach(subProgramsList => {
+                subProgramsList.style.display = 'none';
+            });
+
+            // Show the sub-programs for the clicked top program
+            const subProgramsList = element.parentElement.nextElementSibling;
+            if (subProgramsList.style.display === 'none') {
+                subProgramsList.style.display = 'block'; // Show sub-programs
+            } else {
+                subProgramsList.style.display = 'none'; // Hide sub-programs
+            }
+        });
+    });
+</script>
+{% endblock %}
