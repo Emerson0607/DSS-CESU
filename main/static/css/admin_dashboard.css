@@ -63,7 +63,7 @@ body{
     color: var(--color-dark);
 }
 
-.container{
+.container1{
     display: grid;
     width: 96%;
     margin: 0 auto;
@@ -183,6 +183,7 @@ aside .sidebar a{
     position: relative;
     height: 3.7rem;
     transition: all 300ms ease;
+    text-decoration: none;
 }
 
 aside .sidebar a span{
@@ -469,6 +470,10 @@ main .coordinators a{
     padding: 10px;
     text-align: left;
     border-radius: 0.3rem;
+    text-decoration: none;
+}
+.logout-button a{
+    text-decoration: none;
 }
 
 .logout-button:hover {
@@ -479,7 +484,7 @@ main .coordinators a{
 /*smaller laptop*/
 @media screen and (max-width: 1200px){
     
-    .container{
+    .container1{
         width: 94%;
         grid-template-columns: 7rem auto 23rem;
     }
@@ -552,7 +557,7 @@ main .coordinators a{
 
 /*Mobile*/
 @media screen and (max-width: 760px){
-    .container{
+    .container1{
         width: 100%;
         grid-template-columns: 1fr;
     }

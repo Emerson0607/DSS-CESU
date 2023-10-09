@@ -1,64 +1,56 @@
 from main import db, app
-
-class User(db.Model):
-    
-    id = db.Column(db.Integer, primary_key=True)
-    username = db.Column(db.String(50), unique=True, nullable=False)
-    password = db.Column(db.String(100), nullable=False)
-
-class Coordinator(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(255), nullable=False)
-    
-    # Coordinator can manage multiple programs
-    programs = db.relationship('Program', backref='coordinator', lazy=True)
-
-class Program(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(255), nullable=False)
-    
-    # Program is managed by a coordinator
-    coordinator_id = db.Column(db.Integer, db.ForeignKey('coordinator.id'), nullable=False)
-    
-    # Program can have multiple subprograms
-    subprograms = db.relationship('Subprogram', backref='program', lazy=True)
-    
-    # Community can implement multiple programs (up to 3)
-    communities = db.relationship('CommunityProgram', backref='program', lazy=True)
-
-class Subprogram(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(255), nullable=False)
-    
-    # Subprogram is associated with a program
-    program_id = db.Column(db.Integer, db.ForeignKey('program.id'), nullable=False)
+from flask import render_template
 
 class Community(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(255), nullable=False)
+    community = db.Column(db.String(255))
+    program = db.Column(db.String(255), nullable=False)
+    subprogram = db.Column(db.String(255), nullable=False)
+    week = db.Column(db.Integer, nullable=True)
+    totalWeek = db.Column(db.Integer, nullable=False)
+    user =db.Column(db.String(255), unique=True, nullable=False)
     
-    # Community can implement multiple programs (up to 3)
-    programs = db.relationship('CommunityProgram', backref='community', lazy=True)
 
-class CommunityProgram(db.Model):
+class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    community_id = db.Column(db.Integer, db.ForeignKey('community.id'), nullable=False)
-    program_id = db.Column(db.Integer, db.ForeignKey('program.id'), nullable=False)
+    username = db.Column(db.String(255), unique=True, nullable=False)
+    firstname = db.Column(db.String(255), nullable=False)
+    lastname = db.Column(db.String(255), nullable=False)
+    password = db.Column(db.String(255), nullable=False)
+    role = db.Column(db.String(50), nullable=False)
+
+class Program(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    program = db.Column(db.String(255), unique=True, nullable=False)
+
+class Subprogram(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    program = db.Column(db.String(255), nullable=False)
+    subprogram = db.Column(db.String(255), nullable=False)
 
 
 # Create the database tables
 with app.app_context():
     db.create_all()
 
-
-def create_tables_and_insert_user():
-    new_user = User(username='admin', password='123')
-    db.session.add(new_user)
+def create_tables_and_insert_subprogram():
+    new_subprogram = Subprogram(program='Literacy', subprogram='Literacy2')
+    db.session.add(new_subprogram)
     db.session.commit()
 
-@app.route('/dbApp')
+@app.route('/db')
 def initialize_database():
-    create_tables_and_insert_user()
+    create_tables_and_insert_subprogram()
     return 'Database tables created, and a new user inserted.'
+
+@app.route('/test')
+
+def display_subprograms():
+    # Query all subprogram records from the database
+    subprograms = Subprogram.query.all()
+    
+    # Render a template and pass the subprograms data to it
+    return render_template('test.html', subprograms=subprograms)
+
 
 

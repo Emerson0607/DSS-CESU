@@ -50,30 +50,3 @@ dateContainer.innerHTML = getCurrentDateAndDay();
         dropdownContent.style.display = 'block';
     }
 }
-
-
-function toggleDropdown() {
-    var dropdownContent = document.getElementById("dropdown-content");
-    if (dropdownContent.style.display === "block") {
-        dropdownContent.style.display = "none";
-    } else {
-        dropdownContent.style.display = "block";
-    }
-}
-
-function logout() {
-    fetch('/clear_session', {
-        method: 'POST',
-    })
-    .then(response => response.json())
-    .then(data => {
-        if (data.success) {
-            // Session cleared, now redirect the user to the login page
-            window.location.href = "/login";
-        } else {
-            // Handle error if needed
-            console.error('Error clearing session');
-        }
-    });
-   
-}

@@ -1,0 +1,137 @@
+{% extends "admin_dashboard.html" %}
+{% block content %}
+    
+<div class="manageUser">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="jumbotron p-3">
+                    <h2>Manage <b>Accounts</b> <button type="button" class="btn btn-success float-end" data-bs-toggle="modal" data-bs-target="#mymodal"><span class="material-symbols-sharp">add</span></button></h2>
+                    <div style="max-height: 300px; overflow: auto;" class="mt-4">
+                       
+                        <table class="table table-hover table-light">
+                            <tr>
+                                <th>ID</th>
+                                <th>Username</th>
+                                <th>Firstname</th> 
+                                <th>Lastname</th> 
+                                <th>Password</th>    
+                                <th>Role</th>                
+                                <th>Action</th>
+                            </tr>
+                            {% for row in users %}
+                            <tr>
+                                <td>{{ row.id }}</td>
+                                <td>{{ row.username }}</td>
+                                <td>{{ row.firstname }}</td>
+                                <td>{{ row.lastname }}</td>
+                                <td>{{ row.password }}</td>
+                                <td>{{ row.role }}</td>
+                                <td>
+                                
+                                  
+                                    <a href="{{ url_for('dbModel.edit_account', id=row.id) }}" class="btn btn-warning btn-xs edit-user-button" data-bs-toggle="modal" data-bs-target="#modaledit{{row.id}}">Edit</a>
+                                    <a href="{{ url_for('dbModel.delete_account', id=row.id) }}" class="btn btn-danger btn-xs" onclick="return confirm('Are you sure to delete?')">Delete</a>
+                                </td>
+                            </tr>
+
+                             <!-- Modal for Edit -->
+                <div id="modaledit{{row.id}}" class="modal fade" role="dialog">
+                    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h4 class="modal-title">Edit Account</h4>
+                            </div>
+                            <div class="modal-body">
+                                <form action="{{ url_for('dbModel.edit_account') }}" method="POST">
+                                
+                                    <div class="form-group">
+                                        <label>Username:</label>
+                                        <input type="text" class="form-control" name="new_username" value="{{row.username}}" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Firstname:</label>
+                                        <input type="text" class="form-control" name="new_firstname" value="{{row.firstname}}" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Lastname:</label>
+                                        <input type="text" class="form-control" name="new_lastname" value="{{row.lastname}}" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Password:</label>
+                                        <input type="text" class="form-control" name="new_password" value="{{row.password}}" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Role:</label>
+                                        <input type="text" class="form-control" name="new_role" value="{{row.role}}" required>
+                                    </div>
+                                    <!-- Include a hidden input for the user ID -->
+                                    <input type="hidden" name="id" id="edit-id" value="{{row.id}}">
+                                    <div class="form-group">
+                                        <button class="btn btn-primary" type="submit">Save Changes</button>
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--end edit modal-->
+                            {% endfor %}
+                        </table>
+                    </div>
+                </div>
+                
+                <!-- Modal -->
+                <div id="mymodal" class="modal fade" role="dialog">
+                    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h4 class="modal-title">Add account</h4>
+                            </div>
+                            <div class="modal-body">
+                                <form action="{{ url_for('dbModel.add_account') }}" method="POST">
+                                    <div class="form-group">
+                                        <label>Username:</label>
+                                        <input type="text" class="form-control" name="username" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Firstname:</label>
+                                        <input type="text" class="form-control" name="firstname" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Lastname:</label>
+                                        <input type="text" class="form-control" name="lastname" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Password:</label>
+                                        <input type="password" class="form-control" name="password" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Role:</label>
+                                        <input type="password" class="form-control" name="role" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <button class="btn btn-primary" type="submit">Add account</button>
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--end add modal account-->
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+
+{% endblock %}
