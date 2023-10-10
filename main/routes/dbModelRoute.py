@@ -1,5 +1,5 @@
 from flask import Blueprint, url_for, redirect, request, session, flash, render_template, jsonify
-from main.models.dbModel import User, Community, Program, Subprogram
+from main.models.dbModel import User, Community, Program, Subprogram, Role
 from main import db
 from main import Form
 
@@ -58,7 +58,9 @@ def manage_account():
      # Fetch all user records from the database
      
     all_data = User.query.all()
-    return render_template("manage_account.html", users = all_data)
+    role = Role.query.all()
+    program8 = Program.query.all()
+    return render_template("manage_account.html", users = all_data, role = role, program8=program8)
 
 @dbModel_route.route("/add_account", methods=["POST"])
 def add_account():
@@ -72,13 +74,14 @@ def add_account():
         lastname = request.form.get("lastname")
         password = request.form.get("password")
         role = request.form.get("role")
+        program = request.form.get("program")
         # Check if the username already exists in the database
         existing_user = User.query.filter_by(username=username).first()
         if existing_user:
             flash('Username already exists. Please choose a different username.', 'error')
         else:
             # Create a new user without hashing the password
-            new_user = User(username=username, firstname=firstname, lastname=lastname, password=password, role = role)
+            new_user = User(username=username, firstname=firstname, lastname=lastname, password=password, role = role, program = program)
 
             try: 
                 db.session.add(new_user)
@@ -103,6 +106,7 @@ def edit_account():
         new_lastname = request.form['new_lastname']
         new_password = request.form['new_password']
         new_role = request.form['new_role']
+        new_program = request.form['new_program']
         
         
         # Query the user by ID
@@ -115,6 +119,7 @@ def edit_account():
             user.lastname = new_lastname
             user.password = new_password
             user.role = new_role
+            user.program = new_program
 
             # Commit the changes to the database
             db.session.commit()
@@ -149,44 +154,25 @@ def delete_account(id):
 
 
 ##################  FOR COMMUNITY CRUD  #######################
-programs = [
-    {"id": 1, "program": "Literacy"},
-    {"id": 2, "program": "Socio-economic"},
-     {"id": 3, "program": "Environmental Stewardship"},
-    {"id": 4, "program": "Socio-economic"},
-     {"id": 5, "program": "Literacy"},
-    {"id": 6, "program": "Socio-economic"},
-     {"id":7, "program": "Literacy"},
-    {"id": 8, "program": "Socio-economic"}
-    # Add more programs
-]
-
-subprograms = [
-    {"id": 1, "subprogram": "Sub-Literacy", "program_id": 1},
-    {"id": 2, "subprogram": "Sub-Socio-economic", "program_id": 2},
-    {"id": 3, "subprogram": "Sub-Environmental Stewardship", "program_id": 3},
-     {"id": 4, "subprogram": "Sub-Health and Wellness", "program_id": 4},
-    {"id": 5, "subprogram": "Sub-Cultural Enhancement", "program_id": 5},
-    {"id": 6, "subprogram": "Sub-Values Formation", "program_id": 6},
-     {"id": 7, "subprogram": "Sub-Disaster Management", "program_id": 7},
-    {"id": 8, "subprogram": "Sub-Gender and Development", "program_id": 8}
-    # Add more sub-programs
-]
-
-
-
 
 
 @dbModel_route.route("/manage_community")
 def manage_community():
     form = Form()
-    form.program.choices = [program.program for program in Program.query.all()]
+    #form.program.choices = [program.program for program in Program.query.all()]
+    # Add a placeholder choice at the beginning of the choices list
+    placeholder_choice = ("", "-- Select Program --")
+    form.program.choices = [placeholder_choice[1]] + [program.program for program in Program.query.all()]
+    form.program.default = ""
+    form.process()
     if 'user_id' not in session:
         flash('Please log in first.', 'error')
         return redirect(url_for('dbModel.login'))
      # Fetch all user records from the database
     all_data = Community.query.all()
-    return render_template("community.html", community = all_data, form=form)
+    program8 = Program.query.all()
+    user1 = User.query.all()
+    return render_template("community.html", community = all_data, form=form, program8=program8, user1 = user1)
 
 @dbModel_route.route("/subprogram/<get_subprogram>")
 def subprogram(get_subprogram):

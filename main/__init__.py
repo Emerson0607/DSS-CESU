@@ -12,7 +12,7 @@ bootstrap = Bootstrap(app)
 app.secret_key = 'your_secret_key'  # Set a secret key for session management
 
 # Configure the database connection for SQLite
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///cesu1.db'  # Use SQLite with a database file named 'cesu.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///cesu4.db'  # Use SQLite with a database file named 'cesu.db'
 db = SQLAlchemy(app)
 migrate = Migrate(app, db)
 

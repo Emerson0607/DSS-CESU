@@ -1,88 +1,37 @@
 {% extends "admin_dashboard.html" %}
 {% block content %}
+
 <div class="csvCard">
-    <div class="container">
+
         <div class="row">
             <div class="col-md-12">
                 <div class="jumbotron p-3">
                     <h2>Manage <b>Community</b> <button type="button" class="btn btn-success float-end" data-bs-toggle="modal" data-bs-target="#mymodal"><span class="material-symbols-sharp">add</span></button></h2>
                     <div style="max-height: 300px; overflow: auto;" class="mt-4">
                         <table class="table table-hover table-light">
-                            <tr>
-                                <th>ID</th>
-                                <th>Community</th>
-                                <th>Program</th>
-                                <th>Sub-Program</th>                    
-                                <th>Week</th>
-                                <th>Total Week</th>
-                                <th>User</th>
-                                <th>Action</th>
-                            </tr>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Community</th>
+                                    <th>Program</th>
+                                    <th>Sub-Program</th>                    
+                                    <th>Week</th>
+                                    <th>Total Week</th>
+                                    <th>Coordinator</th>
+                                    <th>Action</th>
+                                </tr>
                             {% for row in community %}
-                            <tr>
-                                <td>{{ row.id }}</td>
-                                <td>{{ row.community }}</td>
-                                <td>{{ row.program }}</td>
-                                <td>{{ row.subprogram }}</td>
-                                <td>{{ row.week }}</td>
-                                <td>{{ row.totalWeek }}</td>
-                                <td>{{ row.user }}</td>
-                                <td>
-                                    <a href="{{ url_for('dbModel.edit_community') }}" class="btn btn-warning btn-xs edit-user-button" data-bs-toggle="modal" data-bs-target="#modaledit{{row.id}}">Edit</a>
-                                    <a href="{{ url_for('dbModel.delete_community', id=row.id) }}" class="btn btn-danger btn-xs" onclick="return confirm('Are you sure to delete?')">Delete</a>
-                                </td>
-                            </tr>
-
-                             <!-- Modal for Edit -->
-                            <div id="modaledit{{row.id}}" class="modal fade" role="dialog">
-                                <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <h4 class="modal-title">Edit Community</h4>
-                                        </div>
-                                        <div class="modal-body">
-                                            <form action="{{ url_for('dbModel.edit_community') }}" method="POST">
-                                               
-                                                <div class="form-group">
-                                                    <label>Community:</label>
-                                                    <input type="text" class="form-control" name="new_community" value="{{row.community}}" required>
-                                                </div>
-                                                <div class="form-group">
-                                                    <label>Program:</label>
-                                                    <input type="text" class="form-control" name="new_program" value="{{row.program}}" required>
-                                                </div>
-                                                <div class="form-group">
-                                                    <label>Sub-Program:</label>
-                                                    <input type="text" class="form-control" name="new_subprogram" value="{{row.subprogram}}" required>
-                                                </div>
-                                                <div class="form-group">
-                                                    <label>Week:</label>
-                                                    <input type="text" class="form-control" name="new_week" value="{{row.week}}" required >
-                                                </div>
-                                                <div class="form-group">
-                                                    <label>Total Week:</label>
-                                                    <input type="text" class="form-control" name="new_totalWeek" value="{{row.totalWeek}}" required >
-                                                </div>
-                                                <div class="form-group">
-                                                    <label>User:</label>
-                                                    <input type="text" class="form-control" name="new_user" value="{{row.user}}" required>
-                                                </div>
-
-
-                                                <!-- Include a hidden input for the user ID -->
-                                                <input type="hidden" name="id" id="edit-id" value="{{row.id}}">
-                                                <div class="form-group">
-                                                    <button class="btn btn-primary" type="submit">Save Changes</button>
-                                                </div>
-                                            </form>
-                                        </div>
-                                        <div class="modal-footer">
-                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <!--end edit modal-->
+                                <tr>
+                                    <td>{{ row.id }}</td>
+                                    <td>{{ row.community }}</td>
+                                    <td>{{ row.program }}</td>
+                                    <td>{{ row.subprogram }}</td>
+                                    <td>{{ row.week }}</td>
+                                    <td>{{ row.totalWeek }}</td>
+                                    <td>{{ row.user }}</td>
+                                    <td>
+                                        <a href="{{ url_for('dbModel.delete_community', id=row.id) }}" class="btn btn-danger btn-xs" onclick="return confirm('Are you sure to delete?')">Delete</a>
+                                    </td>
+                                </tr>
                             {% endfor %}
                         </table>
                     </div>  
@@ -102,25 +51,11 @@
                                         <input type="text" class="form-control" name="community" required>
                                     </div>
 
-
                                     <label>Program:</label>
-                                    {{form.program(class="form-control")}}
-                                   
+                                    {{ form.program(class="form-control", value=form.program.default) }}
                                     
                                     <label>Sub-Program:</label>
                                     {{form.subprogram(class="form-control")}}
-
-                                    <!--
-                                    <select class="form-control" id="programDropdown" name="program" required>
-                                        <option value="" disabled selected>--Select--</option>
-                                        {% for program in programs %}
-                                            <option value="{{ program.id }}">{{ program.program }}</option>
-                                        {% endfor %}
-                                    </select>
-                                    <select class="form-control" id="subprogramDropdown" name="subprogram" required>
-                                        <option value="" disabled selected>--Select--</option>
-                                    </select>-->
-                                    
 
                                     <div class="form-group">
                                         <label>Week:</label>
@@ -130,10 +65,13 @@
                                         <label>Total Week:</label>
                                         <input type="text" class="form-control" name="totalWeek" required>
                                     </div>
-                                    <div class="form-group">
-                                        <label>User:</label>
-                                        <input type="text" class="form-control" name="user" required>
-                                    </div>
+                                    <label>Coordinator:</label>
+                                    <select class="form-select" name="user" id="programSelect" required>
+                                        <option value="" selected disabled>- - S e l e c t - -</option>
+                                        {% for p in user1 %}
+                                            <option value="{{ p.firstname }}">{{ p.firstname }}</option>
+                                        {% endfor %}
+                                    </select>
                                     <div class="form-group">
                                         <button class="btn btn-primary" type="submit">Add community</button>
                                     </div>
@@ -148,17 +86,10 @@
                 <!--end add modal account-->
             </div>
         </div>
+    
     </div>
-
-    <div class="community">
-        <!--dynamic-->
-    </div>
-</div>
-
-
-
 <script>
-   program_select = document.getElementById('program')
+    program_select = document.getElementById('program')
     program_select.onchange = function(){
         program = program_select.value;
         fetch('subprogram/' + program).then(function(response){
@@ -170,11 +101,8 @@
                 document.getElementById('subprogram').innerHTML = optionHTML;
             });
         });
-}
-
-
-    </script>
-
+    }
+</script>
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>

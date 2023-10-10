@@ -16,7 +16,8 @@
                                 <th>Firstname</th> 
                                 <th>Lastname</th> 
                                 <th>Password</th>    
-                                <th>Role</th>                
+                                <th>Role</th>         
+                                <th>Program</th>              
                                 <th>Action</th>
                             </tr>
                             {% for row in users %}
@@ -27,9 +28,8 @@
                                 <td>{{ row.lastname }}</td>
                                 <td>{{ row.password }}</td>
                                 <td>{{ row.role }}</td>
+                                <td>{{ row.program }}</td>
                                 <td>
-                                
-                                  
                                     <a href="{{ url_for('dbModel.edit_account', id=row.id) }}" class="btn btn-warning btn-xs edit-user-button" data-bs-toggle="modal" data-bs-target="#modaledit{{row.id}}">Edit</a>
                                     <a href="{{ url_for('dbModel.delete_account', id=row.id) }}" class="btn btn-danger btn-xs" onclick="return confirm('Are you sure to delete?')">Delete</a>
                                 </td>
@@ -61,10 +61,26 @@
                                         <label>Password:</label>
                                         <input type="text" class="form-control" name="new_password" value="{{row.password}}" required>
                                     </div>
-                                    <div class="form-group">
-                                        <label>Role:</label>
-                                        <input type="text" class="form-control" name="new_role" value="{{row.role}}" required>
+                                    <div class="form-group" >
+                                        <label for="new_role">Role:</label>
+                                        <select class="form-select" name="new_role"required>
+                                            <option value="{{row.role}}" selected style="display: none;">{{row.role}}</option>
+                                            {% for r in role %}
+                                                <option value="{{ r.role }}">{{ r.role }}</option>
+                                            {% endfor %}
+                                        </select>
                                     </div>
+                                    <div class="form-group">
+                                        <label for="new_program">Program:</label>
+                                        
+                                        <select class="form-select" name="new_program" required>
+                                            <option value="{{row.program}}" selected style="display: none;">{{row.program}}</option>
+                                            {% for p in program8 %}
+                                            <option value="{{ p.program }}">{{ p.program }}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                    
                                     <!-- Include a hidden input for the user ID -->
                                     <input type="hidden" name="id" id="edit-id" value="{{row.id}}">
                                     <div class="form-group">
@@ -109,10 +125,27 @@
                                         <label>Password:</label>
                                         <input type="password" class="form-control" name="password" required>
                                     </div>
+
                                     <div class="form-group">
-                                        <label>Role:</label>
-                                        <input type="password" class="form-control" name="role" required>
+                                        <label for="role">Role:</label>
+                                        <select class="form-control" name="role" required>
+                                            <option selected disabled>-- s e l e c t --</option>  <!-- Placeholder option -->
+                                            {% for r in role %}
+                                                <option value="{{ r.role }}">{{ r.role }}</option>
+                                            {% endfor %}
+                                        </select>
                                     </div>
+
+                                    <div class="form-group">
+                                        <label for="program">Program:</label>
+                                        <select class="form-control" name="program" required>
+                                            <option selected disabled >-- s e l e c t --</option>  <!-- Placeholder option -->
+                                            {% for p in program8 %}
+                                                <option value="{{ p.program }}">{{ p.program }}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+
                                     <div class="form-group">
                                         <button class="btn btn-primary" type="submit">Add account</button>
                                     </div>

@@ -1,24 +1,56 @@
 {% extends "program.html" %}
 {% block results %}
-<div class="top" id="results-section">
-    <div class="program">
-        <h2>Predicted Results:</h2>
+
+<div class="row">
+    
+    <div class="top1 card ">
+                <ul>
+                    <li>
+                        <span class="prediction card-text" data-program="{{ top1.program }}">
+                            {{ top1.program }} <div>({{ top1.quantity }} rows)</div>
+                        </span>
+                    </li>
+                    <li class="sub-programs">
+                        <ol class="list-group list-group-numbered">
+                            {% for sub_program in top1.sub_programs %}
+                            <li>{{ sub_program }}</li>
+                            {% endfor %}
+                        </ol>
+                    </li>
+                </ul>
+            </div>
+<!--top2-->
+    <div class="top2 card">
+                  <ul>
+                    <li>
+                        <span class="prediction card-text" data-program="{{ top1.program }}">
+                            {{ top2.program }} <div>({{ top2.quantity }} rows)</div>
+                        </span>
+                    </li>
+                    <li class="sub-programs">
+                        <ol class="list-group list-group-numbered">
+                            {% for sub_program in top2.sub_programs %}
+                            <li>{{ sub_program }}</li>
+                            {% endfor %}
+                        </ol>
+                    </li>
+                </ul>
+    </div>
+
+    <div class="top3 card">
         <ul>
-            {% for item in top_programs %}
             <li>
-                <span class="prediction" data-program="{{ item.program }}">
-                    {{ item.program }} ({{ item.quantity }} rows)
+                <span class="prediction card-text" data-program="{{ top1.program }}">
+                    {{ top3.program }} <div>({{ top3.quantity }} rows)</div>
                 </span>
             </li>
-            <li class="sub-programs" style="display: none;">
-                <!-- Placeholder for sub-programs (initially hidden) -->
-                <ul>
-                    {% for sub_program in item.sub_programs %}
-                    <li>{{ sub_program }}</li>
+            <li class="sub-programs">
+                <ol class="list-group list-group-numbered">
+                    {% for sub_program in top3.sub_programs %}
+                        <li>{{ sub_program }}</li>
                     {% endfor %}
-                </ul>
+                </ol>
             </li>
-            {% endfor %}
         </ul>
     </div>
 </div>

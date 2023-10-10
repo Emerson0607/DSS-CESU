@@ -133,6 +133,7 @@ b{
 
 aside{
     height: 100vh;
+
 }
 
 aside .top{
@@ -224,6 +225,7 @@ aside .sidebar a:hover span{
 /*============ MAIN ====================*/
 main{
     margin-top: 1.4rem;
+  
 }
 
 main .date{
@@ -370,13 +372,17 @@ main .coordinators a{
 }
 
 .right {
-    margin-top:  1.4rem;
+    position: sticky;
+    top: 0;
+    height: 100vh;
 }
 
 .right .top{
+    margin-top:1rem;
     display: flex;
     justify-content: end;
     gap: 2rem;
+    
 }
 
 .right .top button{

@@ -8,7 +8,7 @@ def dashboard():
     if 'user_id' not in session:
         flash('Please log in first.', 'error')
         return redirect(url_for('dbModel.login'))
-    return render_template("main.html")
+    return render_template("dashboard.html")
 
 @admin_route.route("/community")
 def community():

@@ -152,5 +152,10 @@ def programWithCSV():
                     "sub_programs": sub_programs_dict.get(prediction, [])
                 })
 
-            return render_template("resultCSV.html", top_programs=top_programs_with_subprograms)
+            # ...
+            return render_template("resultCSV.html",
+                       top1=top_programs_with_subprograms[0] if len(top_programs_with_subprograms) >= 1 else {},
+                       top2=top_programs_with_subprograms[1] if len(top_programs_with_subprograms) >= 2 else {},
+                       top3=top_programs_with_subprograms[2] if len(top_programs_with_subprograms) >= 3 else {})
+
     return render_template("program.html")

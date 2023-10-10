@@ -1,0 +1,92 @@
+{% extends "admin_dashboard.html" %}
+
+{% block content %}
+
+<style>
+    ul {
+        list-style: none;
+        padding: 0;
+    }
+
+    ul li {
+        margin-bottom: 10px;
+        padding-left: 20px;
+    }
+
+    ul li::before {
+        content: "";
+        display: inline-block;
+        width: .4rem; /* Adjust the size of the circle */
+        height: .4rem; /* Adjust the size of the circle */
+        border-radius: 50%;
+        background-color: rgb(53, 53, 53);
+        margin-right: 5px; /* Adjust the spacing between the circle and text */
+        position: relative;
+        bottom: .1rem; /* Adjust vertical alignment */
+    }
+
+    main .csvCard{
+    display: grid;
+    grid-template-columns: repeat(1fr);
+    gap: 1.6rem;
+
+    
+}
+</style>
+
+
+<div class="csvCard">
+
+    <img src="/static/images/CES.png" class="img-fluid mt-5" alt="...">
+    
+        <div class="card mt-3 bg-body-tertiary" style="width: 100%; border: none; background: #f6f6f9; ">
+            <div class="card-body" style="background: #f6f6f9;">
+                <h1 class="text-secondary-emphasis card-title fs-3 fw-semibold lh-lg">About Us</h1>
+                <p class="card-text lh-lg">Laguna University upholds and promotes community extension as one of the tri-fold functions of a higher educational institution. This is an integral part in facilitating a more holistic approach in forming stakeholders, particularly that of the partner communities. The University participates in the development of communities especially the underserved and depressed by implementing research-based community extension and outreach programs. These sustainable programs shall help improve the living conditions of the recipients.</p>
+
+                <h1 class=" text-secondary-emphasis card-title fs-3 fw-semibold lh-lg">Objectives</h1>
+                <p class="card-text lh-lg">To coordinate, provide, and assist Laguna University stakeholders in their community engagement and service-learning activities that are research-based, community sensitive, and sustainable.</p>
+
+          
+                <h1 class="text-secondary-emphasis card-title fs-3 fw-semibold lh-lg">Services</h1>
+                <p class="card-text">The Community Extension Services Unit (CESU) oversees the Academic Community Extension and Institutional Community Outreach of the university and facilitates the implementation of program and services that geared towards empowering communities.</p>
+
+                <p class="card-text lh-lg">All CESU programs, projects, or activities is under the overarching program dubbed as <b>KAAKBAY</b>, which refers to the helping arm of University in its commitment to provide, promote, and sustain community service to the identified partner communities.</p>
+          
+                <h1 class="text-secondary-emphasis card-title fs-6 fw-semibold lh-lg">KAAKBAY Program Objectives:</h1>
+
+                <ol class=" list-group-numbered">
+                    <p class="card-text lh-lg"><li class="list-group-item">To develop and implement a viable Community and Extension Service projects for the partner communities.</li></p>
+                    <p class="card-text lh-lg"><li class="list-group-item">To build and enhance the social capabilities of the teaching and non-teaching personnel for more effective community and extension service</li></p>
+                    <p class="card-text lh-lg"><li class="list-group-item">Attain excellence in community service by:</li></p>
+                    
+                    <ol class=" list-group-numbered">
+                        <p class="card-text lh-lg"><li class="list-group-item">Supporting provincial and regional development directions through linkages with NGO’s LGUs and other sectors;</li></p>
+                        <p class="card-text lh-lg"><li class="list-group-item">Cultivating values and culture toward attaining improved quality of life;</li></p>
+                        <p class="card-text lh-lg"><li class="list-group-item">Playing a major role in the making of important and relevant policies;</li></p>
+                        <p class="card-text lh-lg"><li class="list-group-item">Conducting outreach programs on literacy and occupational skills for various sectors in the service area.</li></p>
+                
+                    </ol>
+                </ol>
+              
+                <h1 class=" text-secondary-emphasis card-title fs-3 fw-semibold lh-lg">KAAKBAY Agenda</h1>
+            <p class="card-text lh-lg">The KAAKBAY Agenda Supports the 8-point program of the Provincial Government of Laguna which are anchored on the UN Sustainable Development Goals 2030. These include the following programs:</p>
+            
+            <ul>
+                <li>Literacy</li>
+                <li>Socio-economic</li>
+                <li>Environmental Stewardship</li>
+                <li>Health and Wellness</li>
+                <li>Cultural Enhancement</li>
+                <li>Values Formation</li>
+                <li>Disaster Management</li>
+                <li>Gender and Development</li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+
+{% endblock %}
