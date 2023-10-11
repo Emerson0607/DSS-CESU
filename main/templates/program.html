@@ -2,7 +2,7 @@
 {% block content %}
 <div class="csvCard">
     <div class="sales">
-    <h1>Dashboard</h1>
+    
             <!--For one row-->
             <form method="POST" action="{{ url_for('randomForest.programOneRow') }}">
                 <label for="Kasarian">Kasarian:</label>
@@ -114,16 +114,11 @@
             <!--For file-->
             <br>
   
-<h1>Upload a CSV File</h1>
-<form method="POST" action="{{ url_for('randomForest.programWithCSV') }}" enctype="multipart/form-data" id="upload-form">
-    <input type="file" name="csv_file">
-    <input type="submit" value="Upload" id="submit-button">
-</form>
-
-<div id="result-container">
-    <!-- Result content will be displayed here -->
-</div> 
-
+            <h1>Upload a CSV File</h1>
+            <form method="POST" action="{{ url_for('randomForest.programWithCSV') }}" enctype="multipart/form-data" id="upload-form">
+                <input type="file" name="csv_file">
+                <input type="submit" value="Upload" id="submit-button">
+            </form>
 <script>
     // Attach an event handler for the form submission
     $('#upload-form').on('submit', function(event) {

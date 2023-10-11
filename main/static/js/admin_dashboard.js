@@ -4,9 +4,11 @@ const closeBtn = document.querySelector("#close-btn");
 const themeToggler = document.querySelector(".theme-toggler");
 const changeColor = document.querySelector(".right .top .theme-toggle span");
 
+
 //show sidebar
 menuBtn.addEventListener('click', () => {
     sideMenu.style.display = 'block';
+    sideMenu.style.float ='left';
 })
 
 //close sidebar

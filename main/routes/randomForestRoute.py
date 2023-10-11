@@ -1,13 +1,30 @@
-from flask import Blueprint, render_template, redirect, url_for, flash, session, request
+from flask import Blueprint, render_template, redirect, url_for, flash, session, request, g
 from sklearn.impute import SimpleImputer
 from collections import Counter
 import pandas as pd
 import joblib
+from main.models.dbModel import User
 
 randomForest_Route = Blueprint('randomForest', __name__)
 
 model_path = 'cesu.pkl'
 model1 = joblib.load(model_path)
+
+
+def get_current_user():
+    if 'user_id' in session:
+        # Assuming you have a User model or some way to fetch the user by ID
+        user = User.query.get(session['user_id'])
+        if user:
+            return user.firstname, user.role
+    return None, None
+@randomForest_Route.before_request
+def before_request():
+    g.current_user, g.current_role = get_current_user()
+
+@randomForest_Route.context_processor
+def inject_current_user():
+    return dict(current_user=g.current_user, current_role=g.current_role)
 
 
 

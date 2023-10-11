@@ -31,24 +31,24 @@
                 </div>
             </div>
             <div class="sidebar">
-                <a href="{{ url_for('admin.dashboard') }}" class="active">
+                <a href="{{ url_for('admin.dashboard') }}" class="sidebar-link">
                     <span class="material-symbols-sharp">dashboard</span>
                     <h3>Dashboard</h3>
                 </a>
-                <a href="{{ url_for('dbModel.manage_community') }}">
+                <a href="{{ url_for('dbModel.manage_community') }} " class="sidebar-link">
                     <span class="material-symbols-sharp" >groups</span>
                     <h3>Community</h3>
                 </a>
-                <a href="#">
+                <a href="#" class="sidebar-link">
                     <span class="material-symbols-sharp">manage_accounts</span>
                     <h3>Coordinators</h3>
                 </a>
-                <a href="{{ url_for('dbModel.manage_account') }}">
+                <a href="{{ url_for('dbModel.manage_account') }}"class="sidebar-link">
                     <span class="material-symbols-sharp">manage_accounts</span>
                     <h3>Manage Account</h3>
                 </a>
                 
-                <a href="{{ url_for('randomForest.program') }}">
+                <a href="{{ url_for('randomForest.program') }}"class="sidebar-link">
                     <span class="material-symbols-sharp">neurology</span>
                     <h3>Program Recommendation</h3>
                 </a>
@@ -57,6 +57,8 @@
         </aside>
         <main>
             {% block content %}{% endblock %}
+
+            <div class="space" style="margin-top: 5rem;"></div>
         </main>
         <div class="right">
             <div class="top">
@@ -69,8 +71,8 @@
                 </div>
                 <div class="profile">
                     <div class="profile-info">
-                        <p>Hi, <b>Emerson</b></p>
-                        <small class="text-muted">Admin</small>
+                        <p>Hi, <b>{{current_user}}</b></p>
+                        <small class="text-muted">{{current_role}}</small>
                     </div>
                     <div class="profile-photo" id="profile-photo" onclick="toggleDropdown()">
                         <img src="/static/images/lu_logo.png" alt="">
@@ -94,13 +96,50 @@
             </div>
         </div>
     </div>
-    
-   
-
 
 
  <script src="/static/js/admin_dashboard.js"></script>
  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+  const sidebarLinks = document.querySelectorAll(".sidebar-link");
+
+  sidebarLinks.forEach(function(link) {
+    link.addEventListener("click", function(event) {
+      // Prevent the default behavior of the link temporarily
+      event.preventDefault();
+
+      // Add "active" class to the clicked link
+      link.classList.add("active");
+
+      // Store the active link information in local storage
+      localStorage.setItem("activeLink", link.getAttribute("href"));
+
+      // Wait for a short period (e.g., 500 milliseconds) to let the styles apply
+      setTimeout(() => {
+        // Remove the "active" class
+        link.classList.remove("active");
+
+        // Perform the navigation to the link's href after a delay
+        window.location.href = link.getAttribute("href");
+      }, 10); // Adjust the delay as needed
+    });
+  });
+
+  // Check if there is an active link in local storage and apply the "active" class
+  const activeLink = localStorage.getItem("activeLink");
+  if (activeLink) {
+    const activeLinkElement = document.querySelector(`[href="${activeLink}"]`);
+    if (activeLinkElement) {
+      activeLinkElement.classList.add("active");
+    }
+  }
+});
+
+
+
+</script>
 </body>
 </html>

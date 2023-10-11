@@ -1,10 +1,11 @@
-from flask import Blueprint, url_for, redirect, request, session, flash, render_template, jsonify, make_response
+from flask import Blueprint, url_for, redirect, request, session, flash, render_template, jsonify, make_response, g
 from main.models.dbModel import User, Community, Program, Subprogram, Role
 from main import db
 from main import Form
 
 
 dbModel_route = Blueprint('dbModel', __name__)
+
 
 @dbModel_route.route("/login", methods=["GET", "POST"])
 def login():
@@ -18,20 +19,38 @@ def login():
         if user:
             # Store the user's ID in the session to keep them logged in
             session['user_id'] = user.id
+            current_user = user.username
+            current_role = user.role
             flash('Login successful!', 'success')
-            return redirect(url_for('dbModel.main'))
+            return redirect(url_for('dbModel.dashboard'))
         else:
             flash('Invalid username or password. Please try again.', 'error')
+        
 
     return render_template("login.html")
-@dbModel_route.route("/main")
-def main():
+@dbModel_route.route("/admin_dashboard")
+def dashboard():
      # Check if the user is logged in
     if 'user_id' not in session:
         flash('Please log in first.', 'error')
         return redirect(url_for('dbModel.login'))
+    return render_template("dashboard.html")
 
-    return render_template("main.html")
+
+def get_current_user():
+    if 'user_id' in session:
+        # Assuming you have a User model or some way to fetch the user by ID
+        user = User.query.get(session['user_id'])
+        if user:
+            return user.firstname, user.role
+    return None, None
+@dbModel_route.before_request
+def before_request():
+    g.current_user, g.current_role = get_current_user()
+
+@dbModel_route.context_processor
+def inject_current_user():
+    return dict(current_user=g.current_user, current_role=g.current_role)
 
 @dbModel_route.route("/clear_session")
 def clear_session():
