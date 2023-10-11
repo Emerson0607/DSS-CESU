@@ -180,6 +180,12 @@ def subprogram(get_subprogram):
     subArray = [program.subprogram for program in sub]  # Extract the subprograms from the query result
     return jsonify({'subprogram': subArray})
 
+#fetch for user
+@dbModel_route.route("/subprogram1/<get_program>")
+def get_program(get_program):
+    sub = User.query.filter_by(program=get_program).all()
+    subArray = [user.username for user in sub]  
+    return jsonify({'user': subArray})
 
 
 @dbModel_route.route("/add_community", methods=["POST"])

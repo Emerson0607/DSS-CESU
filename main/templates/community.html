@@ -1,44 +1,42 @@
 {% extends "admin_dashboard.html" %}
 {% block content %}
 
-<div class="csvCard">
-
-        <div class="row">
-            <div class="col-md-12">
-                <div class="jumbotron p-3">
-                    <h2>Manage <b>Community</b> <button type="button" class="btn btn-success float-end" data-bs-toggle="modal" data-bs-target="#mymodal"><span class="material-symbols-sharp">add</span></button></h2>
-                    <div style="max-height: 300px; overflow: auto;" class="mt-4">
-                        <table class="table table-hover table-light">
-                                <tr>
-                                    <th>ID</th>
-                                    <th>Community</th>
-                                    <th>Program</th>
-                                    <th>Sub-Program</th>                    
-                                    <th>Week</th>
-                                    <th>Total Week</th>
-                                    <th>Coordinator</th>
-                                    <th>Action</th>
-                                </tr>
-                            {% for row in community %}
-                                <tr>
-                                    <td>{{ row.id }}</td>
-                                    <td>{{ row.community }}</td>
-                                    <td>{{ row.program }}</td>
-                                    <td>{{ row.subprogram }}</td>
-                                    <td>{{ row.week }}</td>
-                                    <td>{{ row.totalWeek }}</td>
-                                    <td>{{ row.user }}</td>
-                                    <td>
-                                        <a href="{{ url_for('dbModel.delete_community', id=row.id) }}" class="btn btn-danger btn-xs" onclick="return confirm('Are you sure to delete?')">Delete</a>
-                                    </td>
-                                </tr>
-                            {% endfor %}
-                        </table>
-                    </div>  
-                </div>
-                
-                <!-- Modal -->
-                <div id="mymodal" class="modal fade" role="dialog">
+<div class="communityCard">
+            <div class="jumbotron">
+                <h2>Manage <b>Community</b> 
+                    <button type="button" class="btn btn-success float-end" data-bs-toggle="modal" data-bs-target="#mymodal">
+                        <span class="material-symbols-sharp">add</span>
+                    </button>
+                </h2> 
+                <table class="table table-responsive table-hover table-light ">
+                    <tr>
+                        <th>ID</th>
+                        <th>Community</th>
+                        <th>Program</th>
+                        <th>Sub-Program</th>                    
+                        <th>Week</th>
+                        <th>Total Week</th>
+                        <th>Coordinator</th>
+                        <th>Action</th>
+                    </tr>
+                    {% for row in community %}
+                    <tr>
+                        <td>{{ row.id }}</td>
+                        <td>{{ row.community }}</td>
+                        <td>{{ row.program }}</td>
+                        <td>{{ row.subprogram }}</td>
+                        <td>{{ row.week }}</td>
+                        <td>{{ row.totalWeek }}</td>
+                        <td>{{ row.user }}</td>
+                        <td>
+                            <a href="{{ url_for('dbModel.delete_community', id=row.id) }}" class="btn btn-danger btn-xs" onclick="return confirm('Are you sure to delete?')">Delete</a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </table> 
+            
+                 <!-- Modal -->
+                 <div id="mymodal" class="modal fade" role="dialog">
                     <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
                         <div class="modal-content">
                             <div class="modal-header">
@@ -52,10 +50,10 @@
                                     </div>
 
                                     <label>Program:</label>
-                                    {{ form.program(class="form-control", value=form.program.default) }}
+                                    {{ form.program(class="form-select", value=form.program.default) }}
                                     
                                     <label>Sub-Program:</label>
-                                    {{form.subprogram(class="form-control")}}
+                                    {{form.subprogram(class="form-select")}}
 
                                     <div class="form-group">
                                         <label>Week:</label>
@@ -66,11 +64,11 @@
                                         <input type="text" class="form-control" name="totalWeek" required>
                                     </div>
                                     <label>Coordinator:</label>
-                                    <select class="form-select" name="user" id="programSelect" required>
-                                        <option value="" selected disabled>- - S e l e c t - -</option>
+                                    <select class="form-select" name="user" id="userSelect" required>
+                                       <!--<option value="" selected disabled>- - S e l e c t - -</option>
                                         {% for p in user1 %}
                                             <option value="{{ p.firstname }}">{{ p.firstname }}</option>
-                                        {% endfor %}
+                                        {% endfor %}--> 
                                     </select>
                                     <div class="form-group">
                                         <button class="btn btn-primary" type="submit">Add community</button>
@@ -84,14 +82,18 @@
                     </div>
                 </div>
                 <!--end add modal account-->
-            </div>
-        </div>
-    
-    </div>
+
+
+            </div> <!--end jumbotron-->
+               
+        
+</div>
 <script>
     program_select = document.getElementById('program')
+
     program_select.onchange = function(){
-        program = program_select.value;
+    var program = program_select.value;
+
         fetch('subprogram/' + program).then(function(response){
             response.json().then(function(data) {
                 optionHTML = '';
@@ -101,7 +103,24 @@
                 document.getElementById('subprogram').innerHTML = optionHTML;
             });
         });
+
+
+        //fetch user based from its program
+        fetch('/subprogram1/' + program).then(function (response) {
+            response.json().then(function (data) {
+                var optionHTML = '';
+                var selectElement = document.getElementById('userSelect');
+
+                for (user of data.user) {
+                    optionHTML += '<option value="' + user + '">' + user + '</option>'
+                }
+
+                selectElement.innerHTML = optionHTML;
+            });
+        });
+
     }
+    
 </script>
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>

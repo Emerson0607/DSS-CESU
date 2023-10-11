@@ -37,16 +37,33 @@
     --box-shadow: 0 2rem 3rem var(var(--color-light));
 }
 
-main .csvCard{
+
+
+main .communityCard{
     margin-top: 2.9rem;
     display: grid;
     grid-template-columns: 1fr;
     gap: 1.6rem;
 }
 
+main .communityCard > div{
+    background: var(--color-white);
+    padding: var(--card-padding);
+    border-radius: var(--card-border-radius);
+    margin-top: 1rem;
+    box-shadow: var(--box-shadow);
+    transition: all 300ms ease;
+}
 
 
-
-main .csvCard > div:hover{
+main .communityCard > div:hover{
     box-shadow: none;
+}
+
+
+/*smaller laptop*/
+@media screen and (max-width: 1200px){
+   
+ 
+
 }

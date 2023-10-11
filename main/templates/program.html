@@ -113,12 +113,42 @@
             </form>
             <!--For file-->
             <br>
-    <h1>Upload a CSV File</h1>
-        <form method="POST" action="{{ url_for('randomForest.programWithCSV') }}" enctype="multipart/form-data" id="upload-form">
-            <input type="file" name="csv_file">
-            <input type="submit" value="upload">
-        </form>
-    </div>
-</div>   
+  
+<h1>Upload a CSV File</h1>
+<form method="POST" action="{{ url_for('randomForest.programWithCSV') }}" enctype="multipart/form-data" id="upload-form">
+    <input type="file" name="csv_file">
+    <input type="submit" value="Upload" id="submit-button">
+</form>
+
+<div id="result-container">
+    <!-- Result content will be displayed here -->
+</div> 
+
+<script>
+    // Attach an event handler for the form submission
+    $('#upload-form').on('submit', function(event) {
+        event.preventDefault(); // Prevent the default form submission
+
+        // Create a FormData object to send the file
+        var formData = new FormData(this);
+
+        // Send an Ajax POST request to the server
+        $.ajax({
+            url: "{{ url_for('randomForest.programWithCSV') }}",
+            type: "POST",
+            data: formData,
+            processData: false, // Prevent jQuery from converting the data to a query string
+            contentType: false, // Prevent jQuery from setting the content type
+            success: function(response) {
+                // Update the content of the result container with the response
+                $('#result-container').html(response);
+            },
+            error: function(xhr, status, error) {
+                console.error("Ajax request failed:", error);
+            }
+        });
+    });
+</script>
+
     {% block results %}{% endblock %}      
 {% endblock %}
