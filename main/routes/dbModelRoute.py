@@ -1,4 +1,4 @@
-from flask import Blueprint, url_for, redirect, request, session, flash, render_template, jsonify
+from flask import Blueprint, url_for, redirect, request, session, flash, render_template, jsonify, make_response
 from main.models.dbModel import User, Community, Program, Subprogram, Role
 from main import db
 from main import Form
@@ -56,7 +56,6 @@ def manage_account():
         flash('Please log in first.', 'error')
         return redirect(url_for('dbModel.login'))
      # Fetch all user records from the database
-     
     all_data = User.query.all()
     role = Role.query.all()
     program8 = Program.query.all()
@@ -154,13 +153,30 @@ def delete_account(id):
 
 
 ##################  FOR COMMUNITY CRUD  #######################
-
+@dbModel_route.route("/get_community_data")
+def get_community_data():
+    try:
+        community_data = [
+        {
+            'community': record.community,
+            'program': record.program,
+            'subprogram': record.subprogram,
+            'week': record.week,
+            'totalWeek': record.totalWeek,
+            'user': record.user
+            # Add other fields here
+        }
+        for record in Community.query.all()
+    ]
+        return jsonify(community_data)
+    except Exception as e:
+        # Log the error for debugging
+        print(str(e))
+        return make_response("Internal Server Error", 500)
 
 @dbModel_route.route("/manage_community")
 def manage_community():
     form = Form()
-    #form.program.choices = [program.program for program in Program.query.all()]
-    # Add a placeholder choice at the beginning of the choices list
     placeholder_choice = ("", "-- Select Program --")
     form.program.choices = [placeholder_choice[1]] + [program.program for program in Program.query.all()]
     form.program.default = ""
