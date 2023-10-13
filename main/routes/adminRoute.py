@@ -2,8 +2,6 @@ from flask import Blueprint, render_template, redirect, url_for, flash, session
 
 admin_route = Blueprint('admin', __name__)
 
-
-
 @admin_route.route("/community")
 def community():
      # Check if the user is logged in

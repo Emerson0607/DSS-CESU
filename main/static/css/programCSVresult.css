@@ -38,13 +38,13 @@
 }
 /*============ MAIN ====================*/
 
-main .row{
+main .row1{
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 1.6rem;
 }
 
-main .row > div{
+main .row1 > div{
     background: var(--color-white);
     padding: 0.8rem;
     border-radius: var(--card-border-radius);
@@ -54,7 +54,7 @@ main .row > div{
   
 }
 
-main .row .sub-programs li{
+main .row1 .sub-programs li{
     background: var(--color-success);
     padding:1rem;
     border-radius: var(--card-border-radius);
@@ -66,7 +66,7 @@ main .row .sub-programs li{
 
 
 
-main .row > div:hover{
+main .row1 > div:hover{
     box-shadow: none;
 }
 
@@ -74,7 +74,7 @@ main .row > div:hover{
 @media screen and (max-width: 1200px){
     
     
-    main .row{
+    main .row1{
         grid-template-columns: 1fr;
         gap: 0;
     }

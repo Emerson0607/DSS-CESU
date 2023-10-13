@@ -3,7 +3,7 @@ from sklearn.impute import SimpleImputer
 from collections import Counter
 import pandas as pd
 import joblib
-from main.models.dbModel import User
+from main.models.dbModel import User, Program, Subprogram
 
 randomForest_Route = Blueprint('randomForest', __name__)
 
@@ -86,6 +86,7 @@ def program():
         return redirect(url_for('dbModel.login'))
 
     return render_template("program.html")
+
     
 @randomForest_Route.route("/programWithCSV", methods=["GET", "POST"])
 def programWithCSV():
@@ -174,5 +175,4 @@ def programWithCSV():
                        top1=top_programs_with_subprograms[0] if len(top_programs_with_subprograms) >= 1 else {},
                        top2=top_programs_with_subprograms[1] if len(top_programs_with_subprograms) >= 2 else {},
                        top3=top_programs_with_subprograms[2] if len(top_programs_with_subprograms) >= 3 else {})
-
     return render_template("program.html")

@@ -19,8 +19,6 @@ def login():
         if user:
             # Store the user's ID in the session to keep them logged in
             session['user_id'] = user.id
-            current_user = user.username
-            current_role = user.role
             flash('Login successful!', 'success')
             return redirect(url_for('dbModel.dashboard'))
         else:
@@ -65,7 +63,7 @@ def programCSVresult():
     if 'user_id' not in session:
         flash('Please log in first.', 'error')
         return redirect(url_for('dbModel.login'))
-
+    return redirect(url_for('randomForest.programOneRow'))
 
 #FOR USER CRUD
 
@@ -169,6 +167,17 @@ def delete_account(id):
         flash('User not found. Please try again.', 'error')
 
     return redirect(url_for('dbModel.manage_account'))
+
+
+
+##################  FOR COORDINATOR  #######################
+@dbModel_route.route("/coordinator")
+def coordinator():
+    if 'user_id' not in session:
+        flash('Please log in first.', 'error')
+        return redirect(url_for('dbModel.login'))
+    return render_template("coordinator.html")
+
 
 
 ##################  FOR COMMUNITY CRUD  #######################

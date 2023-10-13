@@ -10,11 +10,11 @@
     
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Sharp:opsz,wght,FILL,GRAD@24,400,0,0" />
     <link rel="stylesheet" href="/static/css/admin_dashboard.css">
-    <link rel="stylesheet" href="/static/css/programCSV.css">
     <link rel="stylesheet" href="/static/css/programCSVresult.css">
     <link rel="stylesheet" href="/static/css/community.css">
     <link rel="stylesheet" href="/static/css/manage_user.css">
-   
+    <link rel="stylesheet" href="/static/css/coordinator.css">
+    
 </head>
 <body>
     <div class="container1 ">
@@ -31,7 +31,7 @@
                 </div>
             </div>
             <div class="sidebar">
-                <a href="{{ url_for('admin.dashboard') }}" class="sidebar-link">
+                <a href="{{ url_for('dbModel.dashboard') }}" class="sidebar-link">
                     <span class="material-symbols-sharp">dashboard</span>
                     <h3>Dashboard</h3>
                 </a>
@@ -39,7 +39,7 @@
                     <span class="material-symbols-sharp" >groups</span>
                     <h3>Community</h3>
                 </a>
-                <a href="#" class="sidebar-link">
+                <a href="{{ url_for('dbModel.coordinator') }} " class="sidebar-link">
                     <span class="material-symbols-sharp">manage_accounts</span>
                     <h3>Coordinators</h3>
                 </a>
@@ -78,7 +78,6 @@
                         <img src="/static/images/lu_logo.png" alt="">
                         <div class="dropdown-content" id="dropdown-content">
                             <div class="logout-button"><a href="{{ url_for('dbModel.clear_session') }}" id="logout-button">Logout</a></div>
-                         
                         </div>
                     </div>
                 </div>
@@ -137,9 +136,6 @@
     }
   }
 });
-
-
-
 </script>
 </body>
 </html>

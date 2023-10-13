@@ -136,6 +136,19 @@ aside{
 
 }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
 aside .top{
     display: flex;
     align-items: center;
@@ -191,9 +204,6 @@ aside .sidebar a span{
     font-size: 1.6rem;
     transition: all 300ms ease;
 }
-
-
-
 aside .sidebar a.active {
     background: var(--color-light) !important;
     color: var(--color-primary) !important;
@@ -212,11 +222,6 @@ aside .sidebar a.active {
     margin-left: calc(1rem - 3px) !important;
   }
   
-  
-
-
-
-
 aside .sidebar a:hover{
     color: var(--color-primary);
 }
@@ -232,20 +237,6 @@ main{
     margin-top: 1.4rem;
    
   
-}
-
-main .date{
-    display: inline-block;
-    background: var(--color-light);
-    border-radius: var(--border-radius-1);
-    margin-top: 1rem;
-    padding: 0.5rem 1.6rem;
-
-}
-
-main .date input[type='date']{
-    background: transparent;
-    color: var(--color-dark);
 }
 
 main .insights{
@@ -276,12 +267,7 @@ main .insights > div span{
     font-size: 2rem;
 
 }
-main .insights > div.expenses span{
-    background: var(--color-danger);
-}
-main .insights > div.income span{
-    background: var(--color-success);
-}
+
 main .insights > div .middle{
     display: flex;
     align-items: center;
@@ -349,20 +335,14 @@ main .coordinators table:hover{
 
 main table tbody td{
     height: 2.8rem;
-    border-bottom: 1px solid lightgray;
-    color: var(--color-dark);
+    border-bottom: 1px solid var(--color-light);
+    color: var(--color-dark-variant);
 }
 
 main table tbody tr:last-child td{
     border: none;
 }
 
-main .coordinators a{
-    text-align: center;
-    display: block;
-    margin:  1rem auto;
-    color: var(--color-primary);
-}
 
 .right {
     position: sticky;
@@ -381,35 +361,6 @@ main .coordinators a{
 .right .top button{
     display: none;
 }
-
-.right .theme-toggler{
-    background: var(--color-info-light);
-    display: none; 
-    justify-content: space-between;
-    align-items: center;
-    height: 1.6rem;
-    width: 4.2rem;
-    cursor: pointer;
-    border-radius: var(--border-radius-1);
-    /*display: flex*/
-    
-}
-
-.right .theme-toggler span{
-    font-size: 1.2rem;
-    
-    width: 50%;
-    height: 100%;  
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.right .theme-toggler span.active{
-    background: var(--color-primary);
-    color: white;
-    border-radius: var(--border-radius-1);
-}  
 
 .right .top .profile{
     display: flex;
@@ -479,6 +430,9 @@ main .coordinators a{
     background-color: #f0efef;
 }
 
+.theme-toggler{
+    display: none;
+}
 
 /*smaller laptop*/
 @media screen and (max-width: 1200px){
@@ -517,13 +471,8 @@ main .coordinators a{
         width: 83vw;
     }
 
-    main table thead tr th:last-child, main table thead tr th:first-child{
-        display: none;
-    }
-    
-    main table body tr td:last-child, main table body tr td:first-child{
-        display: none;
-    }
+
+
 
      /* Initially hide the dropdown content */
 .profile-photo{
@@ -561,9 +510,9 @@ main .coordinators a{
         grid-template-columns: 1fr;
     }
 
+
     aside{
         position: fixed;
-        left:0;
         background: var(--color-white);
         width: 18rem;
         z-index: 3;
@@ -581,6 +530,10 @@ main .coordinators a{
             left:0; 
         }
     }
+
+
+
+    
     aside .logo{
         margin-left: 1rem;
 
@@ -626,6 +579,10 @@ main .coordinators a{
         margin: 0 auto 4rem;
     }
 
+
+    
+
+
     .right .top{
         position: fixed;
         top:0;
@@ -641,9 +598,8 @@ main .coordinators a{
     }
 
     .right .top .theme-toggler{
-        width: 4.4rem;
-        position: absolute;
-        left:66%
+        display: none;
+   
 
     }
     .right .profile .profile-info{
@@ -662,6 +618,7 @@ main .coordinators a{
     .right .profile button span{
         font-size: 2rem;
     }
+    
     
 
     /* Initially hide the dropdown content */
