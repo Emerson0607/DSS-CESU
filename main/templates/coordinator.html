@@ -1,6 +1,10 @@
 {% extends "admin_dashboard.html" %}
 {% block content %}
-
+<style>
+    .checked {
+    text-decoration: line-through;
+}
+</style>
 <div class="coordinatorCard">
     <div class="insights-div">
 
@@ -45,6 +49,7 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
 
 <script>
+    
     $(document).ready(function(){
         function_name();
     });
@@ -70,61 +75,73 @@
         insightsDiv.find(".text-muted").text(record.subprogram);
      
 
-            // Generate checkboxes based on the totalWeek value
-            var checkboxGroup = insightsDiv.find(".checkbox-group");
-            checkboxGroup.empty(); // Clear any existing checkboxes
+        // Generate checkboxes based on the totalWeek value
+        var checkboxGroup = insightsDiv.find(".checkbox-group");
+        checkboxGroup.empty(); // Clear any existing checkboxes
 
-            var lastCheckedIndex = 0; // Keep track of the last checked checkbox index
+        var lastCheckedIndex = 0; // Keep track of the last checked checkbox index
 
-            for (var i = 1; i <= record.totalWeek; i++) {
-                var checkboxContainer = $('<div class="form-check form-check-inline">');
-                var checkbox = $('<input class="form-check-input" type="checkbox">');
-                var label = $('<label class="label">Week ' + i + '</label>');
-
-                // Set a unique ID for each checkbox, e.g., "checkbox1", "checkbox2", ...
-                var checkboxId = "checkbox" + i + record.subprogram;
-                checkbox.attr("id", checkboxId);
+        for (var i = 1; i <= record.totalWeek; i++) {
+            var checkboxContainer = $('<div class="form-check form-check-inline">');
+            var checkbox = $('<input class="form-check-input" type="checkbox">');
+            var label = $('<label class="label">Week ' + i + '</label>');
                 
-                // Set the "for" attribute of the label to match the checkbox's ID
-                label.attr("for", checkboxId);
-
-    
-                // Append the checkbox to the container, and the container to the checkboxGroup
-                checkboxContainer.append(checkbox);
-                checkboxContainer.append(label);
-
-
-                // Check and disable checkboxes up to record.week
-                if (i <= record.week) {
+            // Set a unique ID for each checkbox, e.g., "checkbox1", "checkbox2", ...
+            var checkboxId = record.subprogram;
+            checkbox.attr("id", checkboxId);
                 
-                    checkbox.prop("checked", true);
+            // Set the "for" attribute of the label to match the checkbox's ID
+            label.attr("for", checkboxId);
 
-                }else {
-                    checkbox.prop("disabled", true);
+            // Append the checkbox to the container, and the container to the checkboxGroup
+            checkboxContainer.append(checkbox);
+            checkboxContainer.append(label);
+
+
+            // Add a class to the label for easier selection
+            label.addClass("checkbox-label");
+
+            // Check and disable checkboxes up to record.week
+            if (i <= record.week) {
+                checkbox.prop("checked", true);
+                label.addClass("checked");
+            } else {
+                checkbox.prop("disabled", true);
+            }
+
+            
+            // Use event delegation to handle changes to checkboxes
+            checkboxGroup.on("change", ".form-check-input", function() {
+                var checkbox = $(this);
+                var label = checkbox.siblings(".checkbox-label");
+
+                if (checkbox.prop("checked")) {
+                    label.addClass("checked");
+                } else {
+                    label.removeClass("checked");
                 }
 
-               
-
-                checkbox.on("change", function() {
+                
+            });
+            checkbox.on("change", function() {
                 if (this.checked) {
                     var currentIndex = i;
-                 
                     lastCheckedIndex = currentIndex;
                 } else {
                     this.checked = true;
                 }
             });
-
-
+            
             checkboxGroup.append(checkboxContainer);
         } //end for
 
         var checkboxes = checkboxGroup.find("input:checkbox");
-
         checkboxes.on("change", function () {
-            if (this.checked) {
-                var currentIndex = checkboxes.index(this);
-                console.log(currentIndex);
+       
+        updatePercentage();
+        if (this.checked) {
+            var currentIndex = checkboxes.index(this);
+            console.log(currentIndex);
 
                 // Enable the next checkbox if it exists and is not already checked
                 if (currentIndex < checkboxes.length - 1) {
@@ -136,44 +153,97 @@
             }
         });
 
+        //calculate the checked box
+         // Create a function to calculate and update the percentage
+        var checkedCheckboxes = checkboxGroup.find("input:checkbox:checked").length;
+        var totalCheckboxes = checkboxGroup.find("input:checkbox").length;
+        var percentage = Math.floor((checkedCheckboxes * 100) / totalCheckboxes);
+        insightsDiv.find(".number").text(percentage + "%");
 
-         // Calculate the percentage and format it as a whole number with a percentage sign
-        var percentage = Math.floor((record.week * 100 / record.totalWeek));
-        insightsDiv.find(".number").text(percentage + "%") ;
+        
 
-        // Calculate the circumference of the circle
-        var circle = insightsDiv.find("circle");
-        var circumference = 2 * Math.PI * parseInt(circle.attr("r"));
+   
+        function updatePercentage() {
+            var checkedCheckboxes = checkboxGroup.find("input:checkbox:checked").length;
+            var totalCheckboxes = checkboxGroup.find("input:checkbox").length;
+            var percentage = Math.floor((checkedCheckboxes * 100) / totalCheckboxes);
+            insightsDiv.find(".number").text(percentage + "%");
 
-        // Calculate the dash-offset based on the percentage
-        var dashOffset = circumference * (1 - percentage / 100);
+            // Calculate the circumference of the circle
+            var circle = insightsDiv.find("circle");
+            var circumference = 2 * Math.PI * parseInt(circle.attr("r"));
 
-        // Set the 'stroke-dasharray' and 'stroke-dashoffset' properties
-        circle.attr("stroke-dasharray", circumference);
-        circle.attr("stroke-dashoffset", dashOffset);
+            // Calculate the dash-offset based on the percentage
+            var dashOffset = circumference * (1 - percentage / 100);
 
-        // Set color based on percentage
-        if (percentage >= 85) {
-            circle.attr("stroke", "#41f1b6"); // Green
-            } else if (percentage >= 70) {
-            circle.attr("stroke", "#ffbb55"); // Orange
-            } else if (percentage >= 40) {
-            circle.attr("stroke", "#ff7782"); // Pink
-            } else {
-            circle.attr("stroke", "red"); // Red
+            // Set the 'stroke-dasharray' and 'stroke-dashoffset' properties
+            circle.attr("stroke-dasharray", circumference);
+            circle.attr("stroke-dashoffset", dashOffset);
+
+            // Set color based on percentage
+            if (percentage >= 85) {
+                circle.attr("stroke", "#41f1b6"); // Green
+                } else if (percentage >= 70) {
+                circle.attr("stroke", "#ffbb55"); // Orange
+                } else if (percentage >= 40) {
+                circle.attr("stroke", "#ff7782"); // Pink
+                } else {
+                circle.attr("stroke", "red"); // Red
+                }
+            
+            //update week
+        
+        $.ajax({
+            url: "/update_week",
+            method: "POST",
+            contentType: "application/json",
+            data: JSON.stringify({
+                subprogram: record.subprogram, // Use the provided subprogram parameter
+                totalCheckboxes: checkedCheckboxes
+            }),
+            success: function(response) {
+                console.log("Week updated successfully.");
+            },
+                error: function(error) {
+                    console.error("Failed to update week: " + error);
+                }
+        });
+
+
             }
 
-        insightsContainer.append(insightsDiv);
-        insightsDiv.removeClass("insights-div");
-    });
+            var circle = insightsDiv.find("circle");
+            var circumference = 2 * Math.PI * parseInt(circle.attr("r"));
 
-        //hide the dafault container
-        insightsContainer.find("> div:first-child").css("display", "none");
+            var dashOffset = circumference * (1 - percentage / 100);
+
+            circle.attr("stroke-dasharray", circumference);
+            circle.attr("stroke-dashoffset", dashOffset);
+
+            if (percentage >= 85) {
+                circle.attr("stroke", "#41f1b6"); // Green
+                } else if (percentage >= 70) {
+                circle.attr("stroke", "#ffbb55"); // Orange
+                } else if (percentage >= 40) {
+                circle.attr("stroke", "#ff7782"); // Pink
+                } else {
+                circle.attr("stroke", "red"); // Red
+                }
+
+                insightsContainer.append(insightsDiv);
+                insightsDiv.removeClass("insights-div");
+            });
+
+            insightsContainer.find("> div:first-child").css("display", "none");
+          
+         
+              
+           
+       
     },
-    error: function() {
-        // Handle errors here if the request fails
-        console.log("Failed to load community data.");
-    }
+        error: function() {
+            console.log("Failed to load community data.");
+        }
     });
     }
 </script>

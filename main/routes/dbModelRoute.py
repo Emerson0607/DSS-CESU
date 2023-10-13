@@ -324,3 +324,21 @@ def delete_community(id):
     return redirect(url_for('dbModel.manage_community'))
 
 
+############# UPDATE WEEK BASED FROM Subprogram ##############
+# Flask Route
+@dbModel_route.route('/update_week', methods=['POST'])
+def update_week():
+    data = request.get_json()
+    subprogram = data['subprogram']
+    totalCheckboxes = data['totalCheckboxes']
+
+    # Query the database to get records with the specified subprogram
+    communities = Community.query.filter_by(subprogram=subprogram).all()
+
+    for community in communities:
+        # Update the "week" column to match the totalCheckboxes
+        community.week = totalCheckboxes
+
+    db.session.commit()
+
+    return jsonify({'message': 'Week column updated for the specified subprogram.'})
