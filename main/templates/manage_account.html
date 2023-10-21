@@ -3,8 +3,8 @@
 
 <div class="manageUser">
     <div class="jumbotron">
-        <h2>Manage <b>Accounts</b> <button type="button" class="btn btn-success float-end" data-bs-toggle="modal" data-bs-target="#mymodal"><span class="material-symbols-sharp">add</span></button></h2>
-            <table class="table table-hover table-light">
+        <h2>Manage <b>Accounts</b> <button type="button" class="btn-add" data-bs-toggle="modal" data-bs-target="#mymodal"><span class="material-symbols-sharp">add</span></button></h2>
+            <table class="table">
                 <tr>
                     <th>ID</th>
                     <th>Username</th>
@@ -30,7 +30,7 @@
                 </tr>
 
                 <!-- Modal for Edit -->
-                <div id="modaledit{{row.id}}" class="modal fade" role="dialog">
+                <div id="modaledit{{row.id}}" class="modal">
                     <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
                         <div class="modal-content">
                             <div class="modal-header">
@@ -90,7 +90,7 @@
             </table>
 
                 <!--Modal for adding -->
-                <div id="mymodal" class="modal fade" role="dialog">
+                <div id="mymodal" class="modal">
                     <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
                         <div class="modal-content">
                             <div class="modal-header">

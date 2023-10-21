@@ -53,3 +53,7 @@ main .manageUser > div{
 main .manageUser > div:hover{
     box-shadow: none;
 }
+
+main .manageUser table{
+    width:100%;
+}

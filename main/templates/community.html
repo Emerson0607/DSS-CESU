@@ -4,11 +4,11 @@
 <div class="communityCard">
             <div class="jumbotron">
                 <h2>Manage <b>Community</b> 
-                    <button type="button" class="btn btn-success float-end" data-bs-toggle="modal" data-bs-target="#mymodal">
+                    <button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#mymodal">
                         <span class="material-symbols-sharp">add</span>
                     </button>
                 </h2> 
-                <table class="table table-responsive table-hover table-light" id="data-table">
+                <table class="table" id="data-table">
                     <tr>
                         <th>ID</th>
                         <th>Community</th>
@@ -29,7 +29,7 @@
                         <td>{{ row.totalWeek }}</td>
                         <td>{{ row.user }}</td>
                         <td>
-                            <a href="{{ url_for('dbModel.delete_community', id=row.id) }}" class="btn btn-danger btn-xs" onclick="return confirm('Are you sure to delete?')">Delete</a>
+                            <a href="{{ url_for('dbModel.delete_community', id=row.id) }}" class="btn-delete" onclick="return confirm('Are you sure to delete?')">Delete</a>
                         </td>
                     </tr>
                     {% endfor %}
@@ -71,12 +71,12 @@
                                         {% endfor %}--> 
                                     </select>
                                     <div class="form-group">
-                                        <button class="btn btn-primary" type="submit">Add community</button>
+                                        <button class="btn-submit" type="submit">Add community</button>
                                     </div>
                                 </form>
                             </div>
                             <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal">Close</button>
                             </div>
                         </div>
                     </div>

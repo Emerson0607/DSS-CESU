@@ -1,250 +1,24 @@
 {% extends "admin_dashboard.html" %}
 {% block content %}
-<style>
-    /* -----Root Variable */
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap');
 
-
-/* Root Variable */
-:root {
-    --color-primary: #7380ec;
-    --color-danger: #ff7782;
-    --color-success: #41f1b6;
-    --color-warning: #ffbb55;
-    --color-white: #fff;
-    --color-info-dark: #7d8da1;
-    --color-info-light: #dce1eb;
-    --color-dark: #363949;
-    --color-light: rgba(132, 139, 200, 0.18);
-    --color-primary-variant: #111e88;
-    --color-dark-variant: #677483;
-    --color-background: #f6f6f9;
-
-    --card-border-radius: 2rem;
-    --border-radius-1: 0.4rem;
-    --border-radius-2: 0.8rem;
-    --border-radius-3: 1.2rem;
-
-    --card-padding: 1.8rem;
-    --padding-1: 1.2rem;
-
-    --box-shadow: 0 2rem 3rem var(--color-light)
-}
-
-.dark-theme-variables{
-    --color-background:#181a1e;
-    --color-white: #202528;
-    --color-dark: #edeffd;
-    --color-dark-variant: #a3bdcc;
-    --color-light: rgba(0,0,0,0.4);
-    --box-shadow: 0 2rem 3rem var(var(--color-light));
-}
-/*============ MAIN ====================*/
-
-main .csvCard{
-    display: grid;
-    grid-template-columns: repeat(1fr);
-    gap: 1.6rem;
-}
-
-main .sales{
-    background: var(--color-white);
-    padding: 0.8rem;
-    border-radius: var(--card-border-radius);
-    margin-top: 1rem;
-    box-shadow: var(--box-shadow);
-    transition: all 300ms ease;
-
-    padding: var(--card-padding);
-  
-  
-}
-
-.custom-separator {
-  border-top: 1px solid #ccc; /* Specify the border style and color */
-  margin-top: 20px; /* Adjust the margin as needed to control spacing */
-}
-
-
-
-</style>
-<div class="csvCard">
-    <div class="sales">
-    
-            <!--For one row-->
-            <form method="POST" action="{{ url_for('randomForest.programOneRow') }}">
-                
-                <label for="Kasarian">Kasarian:</label>
-                <select class="form-select form-select-sm" id="Kasarian" name="Kasarian" required>
-                    <option selected>Select an option</option> <!-- Placeholder option -->
-                    <option value="0">Male</option>
-                    <option value="1">Female</option>
-                  </select>
-                <br>
-                
-                <label for="Edad">Edad:</label>
-                <select class="form-select form-select-sm" id="Edad" name="Edad" required>
-                    <option selected>Select an option</option> <!-- Placeholder option -->
-                    <option value="0">17-below</option>
-                    <option value="1">18-24</option>
-                    <option value="2">25-34</option>
-                    <option value="3">35-44</option>
-                    <option value="4">45-54</option>
-                    <option value="5">55-64</option>
-                    <option value="6">65-Above</option>
-                </select>
-                <br>
-                
-                <label for="Antas na tinapos">Antas na tinapos:</label>
-
-                <select class="form-select form-select-sm" id="Antas na tinapos" name="Antas na tinapos" required>
-                    <option value="">Select an option</option> <!-- Placeholder option -->
-                    <option value="0">Elementary</option>
-                    <option value="1">Not Elementary</option>
-                    <option value="2">Secondary</option>
-                    <option value="3">Not Secondary</option>
-                    <option value="4">College</option>
-                    <option value="5">Not College</option>
-                    <option value="6">Master's Degree</option>
-                    <option value="7">Doctorate Degree</option>
-                    <option value="8">Uneducated</option>
-                </select>
-                <br>
-                
-                <label for="Uri ng trabaho">Uri ng trabaho:</label>
-                <select class="form-select form-select-sm" id="eUri ng trabaho" name="Uri ng trabaho" required>
-                    <option value="">Select an option</option> <!-- Placeholder option -->
-                    <option value="0">Employed</option>
-                    <option value="1">Unemployed</option>
-                </select>
-                <br>
-                
-
-
-                <div class="row g-4">
-                    <div class="col">
-                        <div class="form-check ">
-                            <input type="hidden" class="form-check-input" id="education_aid_hidden" name="education_aid_hidden" value="0">
-                            <input type="checkbox" class="form-check-input" id="Pangedukasyon" name="Pangedukasyon" value="1">
-                            <label class="form-check-label" for="Pangedukasyon">
-                                Pangedukasyon
-                            </label>
-                          </div>
-                    </div>
+<div class="programCard">
+           
+            <div class="program-form">
+                <form method="POST" action="{{ url_for('randomForest.programWithCSV2') }}" enctype="multipart/form-data" id="upload-form">
+                    <label for="formFile" class="programForm">Upload CESU CSV file</label>
                     
-                    <div class="col">
-                        <div class="form-check">
-                            <input type="hidden" class="form-check-input" id="culture_aid_hidden" name="culture_aid_hidden" value="0">
-                            <input type="checkbox" class="form-check-input" id="Pangkultura" name="Pangkultura" value="1">
-                            <label class="form-check-label" for="Pangedukasyon">
-                                Pangkultura
-                            </label>
-                          </div>
-                    </div>
-
-                    <div class="col">
-                        <div class="form-check">
-                            <input type="hidden" class="form-check-input" id="livelihood_aid_hidden" name="livelihood_aid_hidden" value="0">
-                            <input type="checkbox" class="form-check-input" id="Pangkabuhayan" name="Pangkabuhayan" value="1">
-                            <label class="form-check-label" for="Pangkabuhayan">
-                                Pangkabuhayan
-                            </label>
-                          </div>
-                    </div>
-
-                    <div class="col">
-                        <div class="form-check">
-                            <input type="hidden" class="form-check-input" id="values_morals_aid_hidden" name="values_morals_aid_hidden" value="0">
-                            <input type="checkbox" class="form-check-input" id="ValuesMoral" name="ValuesMoral" value="1">
-                            <label class="form-check-label" for="ValuesMoral">
-                                Values at Moral
-                            </label>
-                          </div>
-                    </div>
-                    
-                   
-                    <div class="col">
-                    <div class="form-check">
-                        <input type="hidden" class="form-check-input" id="planting_aid_hidden" name="planting_aid_hidden" value="0">
-                        <input type="checkbox" class="form-check-input" id="Pagtatanim" name="Pagtatanim" value="1">
-                        <label class="form-check-label" for="Pagtatanim">
-                            Pagtatanim
-                        </label>
-                      </div>
-                    </div>
-                </div>
-
-                    <div class="row g-4">
-                    <div class="col">
-                    <div class="form-check">
-                        <input type="hidden" class="form-check-input" id="food_aid_hidden" name="food_aid_hidden" value="0">
-                        <input type="checkbox" class="form-check-input" id="Pagkain" name="Pagkain" value="1">
-                        <label class="form-check-label" for="Pagkain">
-                            Ayudang Pagkain
-                        </label>
-                      </div>
-                    </div>
-
-                    <div class="col">
-                    <div class="form-check">
-                        <input type="hidden" class="form-check-input" id="health_aid_hidden" name="health_aid_hidden" value="0">
-                        <input type="checkbox" class="form-check-input" id="Pangkalusugan" name="Pangkalusugan" value="1">
-                        <label class="form-check-label" for="Pangkalusugan">
-                            Pangkalusugan
-                        </label>
-                      </div>
-                    </div>
-
-                    <div class="col">
-                    <div class="form-check">
-                        <input type="hidden" class="form-check-input" id="recycling_aid_hidden" name="recycling_aid_hidden" value="0">
-                        <input type="checkbox" class="form-check-input" id="Pagrerecycle" name="Pagrerecycle" value="1">
-                        <label class="form-check-label" for="Pagrerecycle">
-                            Pagrerecycle
-                        </label>
-                      </div>
-                    </div>
-                  
-               
-                    <div class="col">
-                    <div class="form-check">
-                        <input type="hidden" class="form-check-input" id="dental_aid_hidden" name="dental_aid_hidden" value="0">
-                        <input type="checkbox" class="form-check-input" id="Dental" name="Dental" value="1">
-                        <label class="form-check-label" for="Dental">
-                            Dental
-                        </label>
-                      </div>
-                    </div>
-
-                    <div class="col">
-                    <div class="form-check">
-                        <input type="hidden" class="form-check-input" id="technology_aid_hidden" name="technology_aid_hidden" value="0">
-                        <input type="checkbox" class="form-check-input" id="Teknolohiya" name="Teknolohiya" value="1">
-                        <label class="form-check-label" for="Teknolohiya">
-                            Teknolohiya
-                        </label>
-                      </div>
-                    </div>
-                    </div>
-                    
-                <input type="submit" value="Submit" class="mt-2 mb-3 btn btn-primary">
-            </form>
-            <!--For file-->
-            <div class="custom-separator mb-5"></div>
-
-            <div class="mb-3">
-                <label for="formFile" class="form-label">Upload CESU CSV file</label>
-                <form method="POST" action="{{ url_for('randomForest.programWithCSV') }}" enctype="multipart/form-data" id="upload-form">
-                        <div class="input-group mb-3">
-                            <input class="form-control" type="file" name="csv_file" id="formFile" required>
-                            <input class="btn btn-outline-secondary" type="submit" value="Upload" id="submit-button" onclick="myfunction(); return false;">
-                          </div>
+                        {% if error_message %}
+                            <script>
+                                alert("{{ error_message }}");
+                            </script>
+                        {% endif %}
+                        <input class="form-submit" type="file" name="csv_file" id="formFile" accept=".csv" required>
+                        <input class="btn-submit" type="submit" value="Upload" id="submit-button" onclick="myfunction(); return false;">
+                
                 </form>
             </div>
-    </div>
 </div>
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+
 <script>
     // Attach an event handler for the form submission
     if ( window.history.replaceState ) {
@@ -256,7 +30,7 @@ main .sales{
 
         // Send an Ajax POST request to the server
         $.ajax({
-            url: "{{ url_for('randomForest.programWithCSV') }}",
+            url: "{{ url_for('randomForest.programWithCSV2') }}",
             type: "POST",
             data: formData,
             processData: false, // Prevent jQuery from converting the data to a query string

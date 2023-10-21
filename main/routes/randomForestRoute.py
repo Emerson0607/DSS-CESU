@@ -1,14 +1,21 @@
 from flask import Blueprint, render_template, redirect, url_for, flash, session, request, g
-from sklearn.impute import SimpleImputer
 from collections import Counter
 import pandas as pd
 import joblib
-from main.models.dbModel import User, Program, Subprogram
+from main.models.dbModel import User, Subprogram
+from main import db
+
 
 randomForest_Route = Blueprint('randomForest', __name__)
 
-model_path = 'cesu.pkl'
-model1 = joblib.load(model_path)
+model_path_cesu = 'trained_modelCESU2.pkl'
+model = joblib.load(model_path_cesu)
+
+
+@randomForest_Route.errorhandler(Exception)
+def handle_error(e):
+    return render_template("error.html"), 500  # You can customize the error page and status code
+
 
 
 def get_current_user():
@@ -18,6 +25,7 @@ def get_current_user():
         if user:
             return user.firstname, user.role
     return None, None
+
 @randomForest_Route.before_request
 def before_request():
     g.current_user, g.current_role = get_current_user()
@@ -25,59 +33,6 @@ def before_request():
 @randomForest_Route.context_processor
 def inject_current_user():
     return dict(current_user=g.current_user, current_role=g.current_role)
-
-
-
-#Machine learning
-# Define the column names for the features
-feature_columns = ['Kasarian', 'Edad', 'Antas na tinapos', 'Uri ng trabaho', 
-                   'Pangedukasyon', 'Pangkultura', 'Pangkabuhayan', 'Values at Moral', 
-                   'Pagtatanim', 'Ayudang Pagkain', 'Pangkalusugan', 'Pagrerecycle', 'Dental', 'Teknolohiya']
-
-@randomForest_Route.route("/programOneRow", methods=["GET", "POST"])
-def programOneRow():
-    if 'user_id' not in session:
-        flash('Please log in first.', 'error')
-        return redirect(url_for('dbModel.login'))
-
-    if request.method == "POST":
-        # Get user inputs from the form
-        Kasarian = request.form['Kasarian']
-        Edad = request.form['Edad']
-        Antas_na_tinapos = request.form['Antas na tinapos']
-        Uri_ng_trabaho = request.form['Uri ng trabaho']
-        Pangedukasyon = request.form.get('Pangedukasyon', '0')
-        Pangkultura = request.form.get('Pangkultura', '0')
-        Pangkabuhayan = request.form.get('Pangkabuhayan', '0')
-        Values_at_Moral = request.form.get('ValuesMoral', '0')
-        Pagtatanim = request.form.get('Pagtatanim', '0')
-        Ayudang_Pagkain = request.form.get('Pagkain', '0')
-        Pangkalusugan = request.form.get('Pangkalusugan', '0')
-        Pagrerecycle = request.form.get('Pagrerecycle', '0')
-        Dental = request.form.get('Dental', '0')
-        Teknolohiya = request.form.get('Teknolohiya', '0')
-
-        # Create a list of user inputs
-        user_inputs = [Kasarian, Edad, Antas_na_tinapos, Uri_ng_trabaho, Pangedukasyon, Pangkultura,
-                       Pangkabuhayan, Values_at_Moral, Pagtatanim, Ayudang_Pagkain, Pangkalusugan,
-                       Pagrerecycle, Dental, Teknolohiya]
-
-        # Create a DataFrame from user inputs
-        user_df = pd.DataFrame([user_inputs], columns=feature_columns)
-
-        # Create an imputer with the 'mean' strategy
-        imputer = SimpleImputer(strategy='mean')
-
-        # Fit the imputer on your user input data and transform it
-        user_df_imputed = pd.DataFrame(imputer.fit_transform(user_df), columns=feature_columns)
-
-        # Use the trained model to make predictions on the imputed data
-       
-        predictions = model1.predict(user_df_imputed)
-
-        # Render the result page with predictions
-        return render_template("result.html", predictions=predictions)
-    return render_template("program.html")
 
 @randomForest_Route.route("/program", methods=["GET", "POST"])
 def program():
@@ -87,75 +42,77 @@ def program():
 
     return render_template("program.html")
 
-    
-@randomForest_Route.route("/programWithCSV", methods=["GET", "POST"])
-def programWithCSV():
+@randomForest_Route.route("/programWithCSV2", methods=["GET", "POST"])
+def programWithCSV2():
     if 'user_id' not in session:
         flash('Please log in first.', 'error')
         return redirect(url_for('dbModel.login'))
 
     if request.method == "POST":
         csv_file = request.files["csv_file"]
-
+        
         if csv_file:
-            # Read the CSV file into a DataFrame
             df = pd.read_csv(csv_file)
-
-            # Check if any columns have data type 'object' (strings)
+            df = df.iloc[:, 3:]
             columns_with_strings = df.select_dtypes(include=['object']).columns
 
-             # Create a dictionary to store sub-programs for each program
-             # Create a dictionary to store sub-programs for each program
             sub_programs_dict = {
-                "Literacy": ["Sub-Program A", "Sub-Program B"],
-                "Socio-economic": ["Sub-Program C", "Sub-Program D"],
-                "Environmental Stewardship": ["Sub-Program E", "Sub-Program F"],
-                "Health and Wellness": ["Sub-Program G", "Sub-Program H"],
-                "Cultural Enhancement": ["Sub-Program I", "Sub-Program J"],
-                "Values Formation": ["Sub-Program K", "Sub-Program L"],
-                "Disaster Management": ["Sub-Program M", "Sub-Program N"],
-                "Gender Development": ["Sub-Program O", "Sub-Program P"]
-                # You can add more sub-programs for each program as needed
+                "Literacy": db.session.query(Subprogram).filter(Subprogram.program == "Literacy").all(),
+                "Socio-economic": db.session.query(Subprogram).filter(Subprogram.program == "Socio-economic").all(),
+                "Environmental Stewardship": db.session.query(Subprogram).filter(Subprogram.program == "Environmental Stewardship").all(),
+                "Health and Wellness": db.session.query(Subprogram).filter(Subprogram.program == "Health and Wellness").all(),
+                "Cultural Enhancement": db.session.query(Subprogram).filter(Subprogram.program == "Cultural Enhancement").all(),
+                "Values Formation": db.session.query(Subprogram).filter(Subprogram.program == "Values Formation").all(),
+                "Disaster Management": db.session.query(Subprogram).filter(Subprogram.program == "Disaster Management").all(),
+                "Gender and Development": db.session.query(Subprogram).filter(Subprogram.program == "Gender and Development").all()
             }
+            db.session.close()
 
             if not columns_with_strings.empty:
-                # Define encoding dictionaries
-                encoding_dict_kasarian = {'Male': 0, 'Female': 1}
+                encoding_dict_kasarian = {'Lalake': 0, 'Babae': 1}
                 encoding_dict_edad = {'17-below': 0, '18-24': 1, '25-34': 2, '35-44': 3, '45-54': 4, '55-64': 5, '65-Above': 6}
-                encoding_dict_antas = {'Elementary': 0, 'Not Elementary': 1, 'Secondary': 2, 'Not Secondary': 3, 'College': 4,
-                                       'Not College': 5, 'Masters Degree': 6, 'Doctorate Degree': 7, 'Uneducated': 8}
-                encoding_dict_uri = {'Employed': 0, 'Unemployed': 1}
+                encoding_dict_antas = {'Hindi nakapagtapos ng Elementarya':0, 'Elementarya':1, 'Hindi nakapagtapos ng Sekundarya':2, 'Sekundarya':3, 'Kolehiyo':4, 'Hindi nakapagtapos ng Kolehiyo':5, 'Masters Degree':6, 'Doctorate Degree':7, 'Hindi nakapag-aral':8}
+                encoding_dict_uri = {'May Trabaho': 1, 'Walang Trabaho': 0}
 
-                # Map string values to numerical values in columns with 'object' data type
+                endcoding_dict_Pangedukasyon = {'Oo':1, 'Hindi': 0}
+                endcoding_dict_Pangkultura = {'Oo':1, 'Hindi': 0}
+                endcoding_dict_Pangkabuhayan = {'Oo':1, 'Hindi': 0}
+                endcoding_dict_Values = {'Oo':1, 'Hindi': 0}
+                endcoding_dict_Pagtatanim = {'Oo':1, 'Hindi': 0}
+                endcoding_dict_Pagkain = {'Oo':1, 'Hindi': 0}
+                endcoding_dict_Pangkalusugan = {'Oo':1, 'Hindi': 0}
+                endcoding_dict_Pagrerecycle = {'Oo':1, 'Hindi': 0}
+                endcoding_dict_Dental = {'Oo':1, 'Hindi': 0}
+                endcoding_dict_Teknolohiya = {'Oo':1, 'Hindi': 0}
+
                 df['Kasarian'] = df['Kasarian'].map(encoding_dict_kasarian)
                 df['Edad'] = df['Edad'].map(encoding_dict_edad)
                 df['Antas na tinapos'] = df['Antas na tinapos'].map(encoding_dict_antas)
                 df['Uri ng trabaho'] = df['Uri ng trabaho'].map(encoding_dict_uri)
+                df['Serbisyong Pangedukasyon'] = df['Serbisyong Pangedukasyon'].map(endcoding_dict_Pangedukasyon)
+                df['Pagsasanay Pangkabuhayan (Livelihood)'] = df['Pagsasanay Pangkabuhayan (Livelihood)'].map(endcoding_dict_Pangkabuhayan)
+                df['Pagtatanim'] = df['Pagtatanim'].map(endcoding_dict_Pagtatanim)
+                df['Serbisyong Pangkalusugan'] = df['Serbisyong Pangkalusugan'].map(endcoding_dict_Pangkalusugan)
+                df['Serbisyong Dental'] = df['Serbisyong Dental'].map(endcoding_dict_Dental)
+                df['Kaalamang Pangkultura'] = df['Kaalamang Pangkultura'].map(endcoding_dict_Pangkultura)
+                df['Values Formation at Moral Recovery'] = df['Values Formation at Moral Recovery'].map(endcoding_dict_Values)
+                df['Ayudang Pagkain (Food Assistance)'] = df['Ayudang Pagkain (Food Assistance)'].map(endcoding_dict_Pagkain)
+                df['Pagrerecycle'] = df['Pagrerecycle'].map(endcoding_dict_Pagrerecycle)
+                df['Pagsasanay Ukol sa Teknolohiya'] = df['Pagsasanay Ukol sa Teknolohiya'].map(endcoding_dict_Teknolohiya)
+                
 
-                # Assuming other columns (Pangedukasyon, Pangkultura, etc.) also need encoding,
-                # add similar mapping code here
-
-            # Now, you can use the DataFrame for predictions
             if "Program" in df.columns:
                 target_variable = "Program"
-                X = df.drop(target_variable, axis=1)  # Features
-                y = df[target_variable]  # Target
+                X = df.drop(target_variable, axis=1)
 
-                # Use your trained model to make predictions on the features
-                predictions = model1.predict(X)
+                predictions = model.predict(X)
 
-                # Add the predictions to the DataFrame
                 df["Predictions"] = predictions
 
             else:
-                # If the "Program" column is not present, assume all columns are features
-                # Use your trained model to make predictions on the entire DataFrame
-                predictions = model1.predict(df)
-
-                # Create a new column for predictions in the DataFrame
+                predictions = model.predict(df)
                 df["Predictions"] = predictions
 
-            # Count the frequency of each prediction
             prediction_counts = Counter(predictions)
 
             # Find the top 3 most frequent predictions
@@ -167,12 +124,42 @@ def programWithCSV():
                 top_programs_with_subprograms.append({
                     "program": prediction,
                     "quantity": count,
-                    "sub_programs": sub_programs_dict.get(prediction, [])
-                })
+                    "sub_programs": [sub_program.subprogram for sub_program in sub_programs_dict.get(prediction, [])]
+            })
+                
+            kasarian_counts = df['Kasarian'].value_counts().to_dict()  
+            edad_counts = df['Edad'].value_counts().to_dict()  
+            antas_counts = df['Antas na tinapos'].value_counts().to_dict()  
+            uri_counts = df['Uri ng trabaho'].value_counts().to_dict()  
 
-            # ...
+            Pangedukasyon_counts = df['Serbisyong Pangedukasyon'].value_counts().to_dict()  
+            Pangkabuhayan_counts = df['Pagsasanay Pangkabuhayan (Livelihood)'].value_counts().to_dict()  
+            Pagtatanim_counts = df['Pagtatanim'].value_counts().to_dict()  
+            Pangkalusugan_counts = df['Serbisyong Pangkalusugan'].value_counts().to_dict()  
+            Dental_counts = df['Serbisyong Dental'].value_counts().to_dict()
+            Pangkultura_counts = df['Kaalamang Pangkultura'].value_counts().to_dict()  
+            Values_counts = df['Values Formation at Moral Recovery'].value_counts().to_dict()  
+            Pagkain_counts = df['Ayudang Pagkain (Food Assistance)'].value_counts().to_dict()  
+            Pagrerecycle_counts = df['Pagrerecycle'].value_counts().to_dict()  
+            Teknolohiya_counts = df['Pagsasanay Ukol sa Teknolohiya'].value_counts().to_dict()  
+
             return render_template("resultCSV.html",
-                       top1=top_programs_with_subprograms[0] if len(top_programs_with_subprograms) >= 1 else {},
-                       top2=top_programs_with_subprograms[1] if len(top_programs_with_subprograms) >= 2 else {},
-                       top3=top_programs_with_subprograms[2] if len(top_programs_with_subprograms) >= 3 else {})
+                top1=top_programs_with_subprograms[0] if len(top_programs_with_subprograms) >= 1 else {},
+                top2=top_programs_with_subprograms[1] if len(top_programs_with_subprograms) >= 2 else {},
+                top3=top_programs_with_subprograms[2] if len(top_programs_with_subprograms) >= 3 else {},
+                kasarian_counts=kasarian_counts,
+                edad_counts=edad_counts,
+                antas_counts=antas_counts,
+                uri_counts=uri_counts,
+                Pangedukasyon_counts=Pangedukasyon_counts,
+                Pangkabuhayan_counts=Pangkabuhayan_counts,
+                Pagtatanim_counts=Pagtatanim_counts,
+                Pangkalusugan_counts=Pangkalusugan_counts,
+                Dental_counts=Dental_counts,
+                Pangkultura_counts=Pangkultura_counts,
+                Values_counts=Values_counts,
+                Pagkain_counts=Pagkain_counts,
+                Pagrerecycle_counts=Pagrerecycle_counts,
+                Teknolohiya_counts=Teknolohiya_counts)
+        
     return render_template("program.html")

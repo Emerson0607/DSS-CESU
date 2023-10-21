@@ -36,6 +36,22 @@ main .coordinatorCard{
     margin-top: 2rem;
 }
 
+
+main .coordinatorCard svg circle{
+    fill: none;
+    stroke-width: 16;
+    stroke-linecap: round;
+    transform: translate(8px, 8px);
+    /*transition: all 500ms ease;*/
+    animation: anim 2s linear forwards;
+    
+}
+@keyframes anim{
+    0%{
+        stroke-dashoffset: 157.5;
+    }
+}
+
 main .coordinatorCard > div{
     background: var(--color-white);
     padding: var(--card-padding);
@@ -112,4 +128,7 @@ main .coordinatorCard small{
 
 
 
+}
+.checked {
+    text-decoration: line-through;
 }
