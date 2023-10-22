@@ -35,62 +35,63 @@
     
     <h3>Uri ng trabaho</h3>
     <ul>
-        <li>Count of May Trabaho: {{ uri_counts.get(1, 0) }}</li>
+        <li id="trabaho">Count of May Trabaho: {{ uri_counts.get(1, 0) }}</li>
     </ul>
     
     <h3>Serbisyong Pangedukasyon</h3>
     <ul>
-        <li>Count of Oo: {{ Pangedukasyon_counts.get(1, 0) }}</li>
+        <li id="Pangedukasyon">Count of Oo: {{ Pangedukasyon_counts.get(1, 0) }}</li>
     </ul>
     
     <h3>Pagsasanay Pangkabuhayan (Livelihood)</h3>
     <ul>
-        <li>Count of Oo: {{ Pangkabuhayan_counts.get(1, 0) }}</li>
+        <li id="Pangkabuhayan">Count of Oo: {{ Pangkabuhayan_counts.get(1, 0) }}</li>
     </ul>
     
     <h3>Pagtatanim</h3>
     <ul>
-        <li>Count of Oo: {{ Pagtatanim_counts.get(1, 0) }}</li>
+        <li id="Pagtatanim">Count of Oo: {{ Pagtatanim_counts.get(1, 0) }}</li>
     </ul>
     
     <h3>Serbisyong Pangkalusugan</h3>
     <ul>
-        <li>Count of Oo: {{ Pangkalusugan_counts.get(1, 0) }}</li>
+        <li id="Pangkalusugan">Count of Oo: {{ Pangkalusugan_counts.get(1, 0) }}</li>
     </ul>
     
     <h3>Serbisyong Dental</h3>
     <ul>
-        <li>Count of Oo: {{ Dental_counts.get(1, 0) }}</li>
+        <li id="Dental">Count of Oo: {{ Dental_counts.get(1, 0) }}</li>
     </ul>
     
     <h3>Kaalamang Pangkultura</h3>
     <ul>
-        <li>Count of Oo: {{ Pangkultura_counts.get(1, 0) }}</li>
+        <li id="Pangkultura">Count of Oo: {{ Pangkultura_counts.get(1, 0) }}</li>
     </ul>
     
     <h3>Values Formation at Moral Recovery</h3>
     <ul>
-        <li>Count of Oo: {{ Values_counts.get(1, 0) }}</li>
+        <li id="Values" >Count of Oo: {{ Values_counts.get(1, 0) }}</li>
     </ul>
     
     <h3>Ayudang Pagkain (Food Assistance)</h3>
     <ul>
-        <li>Count of Oo: {{ Pagkain_counts.get(1, 0) }}</li>
+        <li id="Pagkain" >Count of Oo: {{ Pagkain_counts.get(1, 0) }}</li>
     </ul>
     
     <h3>Pagrerecycle</h3>
     <ul>
-        <li>Count of Oo: {{ Pagrerecycle_counts.get(1, 0) }}</li>
+        <li id="Pagrerecycle" >Count of Oo: {{ Pagrerecycle_counts.get(1, 0) }}</li>
     </ul>
     
     <h3>Pagsasanay Ukol sa Teknolohiya</h3>
     <ul>
-        <li>Count of Oo: {{ Teknolohiya_counts.get(1, 0) }}</li>
+        <li id="Teknolohiya" >Count of Oo: {{ Teknolohiya_counts.get(1, 0) }}</li>
     </ul>
-    
-    
 </div>
+<h1>The category with the highest count is:</h1>
 
+<p>{{ max_category }} with a count of {{ highest_count }}</p>
+<h1>{{program_ces}}</h1>
 
 <div class="program-row">
     
@@ -145,4 +146,6 @@
         </ul>
     </div>
 </div>
+
+
 {% endblock %}

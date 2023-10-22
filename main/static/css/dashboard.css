@@ -1,0 +1,22 @@
+
+.dashboard-cesu ul {
+    list-style: none;
+    padding: 0;
+}
+
+.dashboard-cesu ul li {
+    margin-bottom: 10px;
+    padding-left: 20px;
+}
+
+.dashboard-cesu ul li::before {
+    content: "";
+    display: inline-block;
+    width: .4rem; /* Adjust the size of the circle */
+    height: .4rem; /* Adjust the size of the circle */
+    border-radius: 50%;
+    background-color: rgb(53, 53, 53);
+    margin-right: 5px; /* Adjust the spacing between the circle and text */
+    position: relative;
+    bottom: .1rem; /* Adjust vertical alignment */
+}

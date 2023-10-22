@@ -2,37 +2,9 @@
 
 {% block content %}
 
-<style>
-    ul {
-        list-style: none;
-        padding: 0;
-    }
+<img src="/static/images/CES.png"  alt="...">
 
-    ul li {
-        margin-bottom: 10px;
-        padding-left: 20px;
-    }
-
-    ul li::before {
-        content: "";
-        display: inline-block;
-        width: .4rem; /* Adjust the size of the circle */
-        height: .4rem; /* Adjust the size of the circle */
-        border-radius: 50%;
-        background-color: rgb(53, 53, 53);
-        margin-right: 5px; /* Adjust the spacing between the circle and text */
-        position: relative;
-        bottom: .1rem; /* Adjust vertical alignment */
-    }
-
-</style>
-    
-
-
-<img src="/static/images/CES.png" class="img-fluid mt-5" alt="...">
-    
-       
-            <div class="card-body" style="background: #f6f6f9;">
+            <div class="dashboard-cesu" style="background: #f6f6f9;">
                 <h1 class="text-secondary-emphasis card-title fs-3 fw-semibold lh-lg">About Us</h1>
                 <p class="card-text lh-lg">Laguna University upholds and promotes community extension as one of the tri-fold functions of a higher educational institution. This is an integral part in facilitating a more holistic approach in forming stakeholders, particularly that of the partner communities. The University participates in the development of communities especially the underserved and depressed by implementing research-based community extension and outreach programs. These sustainable programs shall help improve the living conditions of the recipients.</p>
 
@@ -74,4 +46,6 @@
                     <li>Disaster Management</li>
                     <li>Gender and Development</li>
                 </ul>
+            </div>
+
 {% endblock %}
